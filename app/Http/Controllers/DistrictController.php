@@ -93,10 +93,29 @@ class DistrictController extends Controller
      * @param  \App\district  $district
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, district $district)
-    {
-        //
-    }
+
+public function update(Request $request)
+{
+    $id = $request->id;
+
+    $this->validate($request, [
+
+        'district_name' => 'required|max:255|unique:districts,district_name,'.$id,
+        'description' => 'required',
+    
+
+    ]);
+
+    $districts = district::find($id);
+    $districts->update([
+        'district_name' => $request->district_name,
+        'description' => $request->description,
+    ]);
+
+    session()->flash('edit','District updated successfully.');
+    return redirect('/districts');
+}
+    
 
     /**
      * Remove the specified resource from storage.
@@ -104,8 +123,11 @@ class DistrictController extends Controller
      * @param  \App\district  $district
      * @return \Illuminate\Http\Response
      */
-    public function destroy(district $district)
+    public function destroy(Request $request)
     {
-        //
+        $id = $request->id;
+        district::find($id)->delete();
+        session()->flash('delete','District has been deleted successfully.');
+        return redirect('/districts');
     }
 }
