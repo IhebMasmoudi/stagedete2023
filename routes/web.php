@@ -20,7 +20,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -28,5 +27,7 @@ Route::resource('invoices','InvoicesController');
 
 
 Route::resource('districts','DistrictController');
+
+Route::resource('locality_family', 'LocalityFamilyController');
 
 Route::get('/{page}', 'AdminController@index');

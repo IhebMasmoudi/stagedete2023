@@ -124,6 +124,7 @@
                                     <a class="btn btn-outline-danger btn-sm" data-effect="effect-scale" data-id="{{ $x->id }}" 
                                     data-district_name="{{ $x->district_name }}" data-toggle="modal" href="#modaldemo9" 
                                     title="delete">delete<i class="las la-trash"></i></a>
+                                    
                                 </td>
                             </tr>
                             @endforeach
@@ -183,7 +184,9 @@
                     {{ csrf_field() }}
                     <div class="form-group">
                         <input type="hidden" name="id" id="edit_id" value="">
+
                         <label for="edit_district_name" class="col-form-label">District name</label>
+                        
                         <input class="form-control" name="district_name" id="edit_district_name" type="text">
                     </div>
                     <div class="form-group">
@@ -197,19 +200,25 @@
             </div>
 
 
-            <!-- delete -->
-            <div class="modal" id="modaldemo9">
+          
+            </form>
+            
+        </div>
+    </div>
+</div>
+  <!-- delete -->
+  <div class="modal" id="modaldemo9">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content modal-content-demo">
                         <div class="modal-header">
-                            <h6 class="modal-title">حذف القسم</h6>
+                            <h6 class="modal-title"> Delete district </h6>
                             <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                         </div>
                         <form action="districts/destroy" method="post">
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
                             <div class="modal-body">
-                                <p>Are you sure about the deletion process?</p><br>
+                                <p>? Are you sure about the deletion process</p><br>
                                 <input type="hidden" name="id" id="id" value="">
                                 <input class="form-control" name="district_name" id="district_name" type="text" readonly>
                             </div>
@@ -221,11 +230,6 @@
                     </div>
                 </div>
             </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 <!-- row closed -->
 </div>
 <!-- Container closed -->

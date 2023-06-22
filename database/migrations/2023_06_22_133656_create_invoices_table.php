@@ -22,12 +22,14 @@ class CreateInvoicesTable extends Migration
             $table->string('section');
             $table->string('discount');
             $table->string('rate_vat');
-            $table->decimal('value_vat',8,2);
-            $table->decimal('Total',8,2);
+            $table->decimal('value_vat', 8, 2);
+            $table->decimal('Total', 8, 2);
             $table->string('Status', 50);
             $table->integer('value_status');
             $table->text('note')->nullable();
             $table->string('user');
+            $table->integer('CounterReference')->unsigned();
+            $table->foreign('CounterReference')->references('CounterReference')->on('counters');
             $table->softDeletes();
             $table->timestamps();
         });
