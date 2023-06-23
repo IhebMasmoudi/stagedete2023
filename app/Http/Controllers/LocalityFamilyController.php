@@ -116,8 +116,9 @@ class LocalityFamilyController extends Controller
     {
         $FamilyCode = $request->FamilyCode;
         
-        Locality_Family::findOrFail($FamilyCode)->delete();
+        Locality_Family::find($FamilyCode)->delete();
         session()->flash('delete', 'Locality Family has been deleted successfully.');
         return redirect('/locality_family');
     }
+ 
 }

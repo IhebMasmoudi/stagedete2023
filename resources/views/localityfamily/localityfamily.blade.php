@@ -178,7 +178,6 @@
 		</div>
 	</div>
 </div>
-
 <!-- delete -->
 <div class="modal" id="modaldemo9">
 	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -187,9 +186,9 @@
 				<h6 class="modal-title">Delete district</h6>
 				<button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
 			</div>
-			<form action="locality_family.destroy" method="post">
-				{{ method_field('DELETE') }}
-				{{ csrf_field() }}
+			<form action="locality_family/destroy" method="post">
+			               {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
 				<div class="modal-body">
 					<div class="form-group">
 						<p>Are you sure about the deletion process?</p><br>
