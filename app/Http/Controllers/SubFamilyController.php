@@ -14,7 +14,10 @@ class SubFamilyController extends Controller
      */
     public function index()
     {
-        //
+        
+        $subfamilys=subFamily::all();
+
+        return view('subfamilys.subfamilys',compact('subfamilys'));
     }
 
     /**

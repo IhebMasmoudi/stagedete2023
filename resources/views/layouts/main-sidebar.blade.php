@@ -64,6 +64,8 @@
 							<li><a class="slide-item" href="{{ url('/' . $page='districts') }}">District</a></li>
 							
 							<li><a class="slide-item"  href="{{ url('/' . $page='locality_family') }}">Locality Family</a></li>
+							
+							<li><a class="slide-item"  href="{{ url('/' . $page='subFamily') }}">Sub Family</a></li>
 
 							<li><a class="slide-item" href="{{ url('/' . $page='editprofile') }}">Counter</a></li>
 						</ul>
