@@ -51,7 +51,7 @@ class LocalityFamilyController extends Controller
             Locality_Family::create([
                 'LocalFamily' => $input['LocalFamily']
             ]);
-            session()->flash('success', 'Locality Family created successfully.');
+            session()->flash('Add', 'Locality Family created successfully.');
             return redirect('/locality_family');
         }
     }

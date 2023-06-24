@@ -20,7 +20,7 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">Settings</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Sub family</span>
+            <h4 class="content-title mb-0 my-auto">Settings</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Counter type</span>
         </div>
     </div>
     <div class="d-flex my-xl-auto right-content">
@@ -79,7 +79,7 @@
         <div class="card mg-b-20">
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
-                    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Sub family</a>
+                    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Counter Type</a>
 
                 </div>
 
@@ -90,8 +90,7 @@
                         <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0"> Sub family name</th>
-                                <th class="border-bottom-0"> Local Family</th>
+                                <th class="border-bottom-0"> Counter Type name</th>
                                 <th class="border-bottom-0"></th>
 
 
@@ -99,67 +98,62 @@
                         </thead>
                         <tbody>
                             <?php $i = 0; ?>
-                            @foreach ($sub_familys as $sub_family)
+                            @foreach ($counter_types as $counter_type)
                             <?php $i++; ?>
                             <tr>
                                 <td>{{ $i }}</td>
-                                <td>{{ $sub_family->SubFamily }}</td>
-                                <td>{{ $sub_family->localityFamily->LocalFamily }}</td>
+                                <td>{{ $counter_type->CounterType }}</td>
                                 <td>
-                                <button class="btn btn-outline-success btn-sm" 
-                                data-SubFamily="{{ $sub_family->SubFamily }}"
-                                data-SubFamilyCode="{{ $sub_family->SubFamilyCode }}"
-                               data-LocalFamily="{{ $sub_family->localityFamily->LocalFamily }}"
-                                  data-toggle="modal" data-target="#edit_Product">Edit</button>
-                                    <button class="btn btn-outline-danger btn-sm" 
-                                    data-SubFamilyCode="{{ $sub_family->SubFamilyCode }}" data-SubFamily="{{ $sub_family->SubFamily }}" 
-                                    data-toggle="modal" data-target="#modaldemo9">Delete</button>
+                                    <button class="btn btn-outline-success btn-sm" 
+                                    data-counterType="{{ $counter_type->CounterType }}"
+                                     data-counterTypeCode="{{ $counter_type->CounterTypeCode }}" 
+                                     data-toggle="modal" data-target="#edit_Product">Edit</button>
+
+                                    <button class="btn btn-outline-danger btn-sm"
+                                     data-counterTypeCode="{{ $counter_type->CounterTypeCode }}" 
+                                     data-counterType="{{ $counter_type->CounterType }}" 
+                                     data-toggle="modal" data-target="#modaldemo9">Delete</button>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
-
                     </table>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Basic modal -->
     <div class="modal" id="modaldemo8">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Add Sub family</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">Add Counter Type</h6>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('subfamily.store') }}" method="post">
-                    @method('patch')
-                    @csrf
-                    <div class="form-group">
-                        <label for="SubFamily">Sub Family Name</label>
-                        <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
-                        <input type="text" class="form-control" name="SubFamily" id="SubFamily">
-                    </div>
-                    <div class="form-group">
-                        <label for="LocalFamily">Local Family</label>
-                        <select name="LocalFamily" id="LocalFamily" class="custom-select" required>
-                            @foreach ($locality_families as $locality_family)
-                            <option value="{{ $locality_family->id }}">{{ $locality_family->LocalFamily }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                    <form action="{{ route('countertype.store') }}" method="post">
+                        {{ csrf_field() }}
+
+                        <div class="form-group">
+                            <label for="CounterType">Counter Type Name</label>
+                            <input type="hidden" class="form-control" name="CounterTypeCode" id="CounterTypeCode" value="">
+                            <input type="text" class="form-control" name="CounterType" id="CounterType">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+    <!-- End Basic modal -->
 </div>
-<!-- End Basic modal -->
-</div>
-
 
 <!-- edit -->
 <div class="modal fade" id="edit_Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -172,21 +166,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="subfamily/update" method="post">
+            <form action="countertype/update" method="post">
                     {{ method_field('patch') }}
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label for="subfamily">Sub Family Name</label>
-                        <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
-
-                        <input type="text" class="form-control" name="SubFamily" id="SubFamily">
+                        <label for="edit_CounterType">Counter Type Name</label>
+                        <input type="hidden" class="form-control" name="CounterTypeCode" id="edit_CounterTypeCode" value="">
+                        <input type="text" class="form-control" name="CounterType" id="edit_CounterType">
                     </div>
-                    <label for="LocalFamily">Local Family</label>
-                    <select name="LocalFamily" id="LocalFamily" class="custom-select" required>
-                        @foreach ($locality_families as $locality_family)
-                        <option> {{ $locality_family->LocalFamily }} </option>
-                        @endforeach
-                    </select>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -198,22 +185,20 @@
 </div>
 
 
-<!-- delete -->
-<div class="modal" id="modaldemo9">
+<!-- delete --><div class="modal" id="modaldemo9">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title"> Delete Sub Family </h6>
+                <h6 class="modal-title">Delete Counter Type</h6>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
             </div>
-            <form action="subfamily/destroy" method="post">
-                {{ method_field('DELETE') }}
-                {{ csrf_field() }}
+            <form action="countertype/destroy" method="post">
+                      {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
                 <div class="modal-body">
-                    <p>? Are you sure about the deletion process</p><br>
-                    <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
-
-                    <input type="text" class="form-control" name="SubFamily" id="SubFamily" readonly>
+                    <p>Are you sure about the deletion process?</p><br>
+                    <input type="hidden" class="form-control" name="CounterTypeCode" id="edit_CounterTypeCode" value="">
+                    <input type="text" class="form-control" name="CounterType" id="edit_CounterType" readonly>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -259,25 +244,25 @@
 
 <script>
     $('#edit_Product').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var SubFamily = button.data('subfamily')
-    var LocalFamily = button.data('localfamily')
-    var SubFamilyCode = button.data('subfamilycode')
-    var modal = $(this)
-    modal.find('.modal-body #SubFamily').val(SubFamily);
-    modal.find('.modal-body #LocalFamily').val(LocalFamily);
-    modal.find('.modal-body #SubFamilyCode').val(SubFamilyCode);
-})
+        var button = $(event.relatedTarget);
+        var CounterType = button.data('countertype');
+        var CounterTypeCode = button.data('countertypecode');
+        var modal = $(this);
+        modal.find('.modal-body #edit_CounterType').val(CounterType);
+        modal.find('.modal-body #edit_CounterTypeCode').val(CounterTypeCode);
+    });
 </script>
 
 <script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var SubFamilyCode = button.data('subfamilycode')
-        var SubFamily = button.data('subfamily')
-        var modal = $(this)
-        modal.find('.modal-body #SubFamilyCode').val(SubFamilyCode);
-        modal.find('.modal-body #SubFamily').val(SubFamily);
-    })
+    $(document).ready(function() {
+        $('#modaldemo9').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+        var CounterType = button.data('countertype');
+        var CounterTypeCode = button.data('countertypecode');
+        var modal = $(this);
+        modal.find('.modal-body #edit_CounterType').val(CounterType);
+        modal.find('.modal-body #edit_CounterTypeCode').val(CounterTypeCode);
+        });
+    });
 </script>
 @endsection

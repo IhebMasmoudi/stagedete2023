@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\CounterType;
+use App\counter_types;
 use Illuminate\Http\Request;
 
 class CounterTypeController extends Controller
@@ -14,7 +14,9 @@ class CounterTypeController extends Controller
      */
     public function index()
     {
-        //
+        
+        $counter_types = counter_types::all();
+        return view('countertype.countertype', compact('counter_types'));
     }
 
     /**
@@ -35,16 +37,32 @@ class CounterTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'CounterType' => 'required|unique:counter_types|string',
+        ]);
+
+        // Check if the counter type already exists in the database
+        $existingCounterType = counter_types::where('CounterType', $input['CounterType'])->exists();
+
+        if ($existingCounterType) {
+            session()->flash('error', 'Counter type already exists.');
+            return redirect('/countertype');
+        } else {
+            counter_types::create([
+                'CounterType' => $input['CounterType'],
+            ]);
+            session()->flash('Add', 'Counter type created successfully.');
+            return redirect('/countertype');
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\CounterType  $counterType
+     * @param  \App\counter_types  $counterType
      * @return \Illuminate\Http\Response
      */
-    public function show(CounterType $counterType)
+    public function show(counter_types $counterType)
     {
         //
     }
@@ -52,10 +70,10 @@ class CounterTypeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\CounterType  $counterType
+     * @param  \App\counter_types  $counterType
      * @return \Illuminate\Http\Response
      */
-    public function edit(CounterType $counterType)
+    public function edit(counter_types $counterType)
     {
         //
     }
@@ -64,22 +82,34 @@ class CounterTypeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\CounterType  $counterType
+     * @param  \App\counter_types  $counterType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CounterType $counterType)
+    public function update(Request $request)
     {
-        //
+        $id = $request->CounterTypeCode;
+        $this->validate($request, [
+            'CounterType' => 'required|max:255|unique:counter_types,CounterType,' . $id . ',CounterType',
+        ]);
+        $counter_types = counter_types::findOrFail($id);
+        $counter_types->CounterType = $request->CounterType;
+        $counter_types->save();
+        session()->flash('edit', 'Counter type updated successfully.');
+        return redirect('/countertype');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\CounterType  $counterType
+     * @param  \App\counter_types  $counterType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CounterType $counterType)
+    public function destroy(Request $request)
     {
-        //
+        $CounterTypeCode = $request->CounterTypeCode;
+        
+        counter_types::find($CounterTypeCode)->delete();
+        session()->flash('delete', 'Counter Types has been deleted successfully.');
+        return redirect('/countertype');
     }
 }

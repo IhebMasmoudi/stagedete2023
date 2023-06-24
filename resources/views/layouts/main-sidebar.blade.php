@@ -67,6 +67,9 @@
 							
 							<li><a class="slide-item"  href="{{ url('/' . $page='subfamily') }}">Sub Family</a></li>
 
+							
+							<li><a class="slide-item"  href="{{ url('/' . $page='countertype') }}">Counter Type</a></li>
+
 							<li><a class="slide-item" href="{{ url('/' . $page='editprofile') }}">Counter</a></li>
 						</ul>
 					</li>

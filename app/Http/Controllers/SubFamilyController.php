@@ -58,7 +58,7 @@ class SubFamilyController extends Controller
                 'FamilyCode' => $input['FamilyCode'],
             ]);
     
-            session()->flash('success', 'SubFamily created successfully.');
+            session()->flash('Add', 'SubFamily created successfully.');
             return redirect('/subfamily');
         }
     }
@@ -104,7 +104,7 @@ class SubFamilyController extends Controller
                 'FamilyCode' => $localFamily->FamilyCode,
             ]);
     
-            session()->flash('Edit', 'Edit successful');
+            session()->flash('edit', 'Edit successful');
             return back();
         } else {
             // Handle the case when the LocalFamily doesn't exist
@@ -127,7 +127,7 @@ class SubFamilyController extends Controller
 
     $subFamily->delete();
 
-    session()->flash('Delete', 'Delete successful');
+    session()->flash('delete', 'Delete successful');
     return back();
 }
 
