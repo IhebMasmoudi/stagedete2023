@@ -31,6 +31,7 @@ Route::resource('districts','DistrictController');
 Route::resource('locality_family', 'LocalityFamilyController');
 
 
-Route::resource('subFamily', 'SubFamilyController');
+Route::resource('subfamily', 'SubFamilyController');
+
 
 Route::get('/{page}', 'AdminController@index');

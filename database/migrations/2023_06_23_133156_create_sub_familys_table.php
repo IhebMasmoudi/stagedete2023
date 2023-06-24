@@ -13,7 +13,7 @@ class CreateSubFamilysTable extends Migration
      */
     public function up()
     {
-        Schema::create('sub_familys', function (Blueprint $table) {
+        Schema::create('sub_families', function (Blueprint $table) {
             $table->increments('SubFamilyCode');
             $table->string('SubFamily');
             $table->integer('FamilyCode')->unsigned();
@@ -29,6 +29,6 @@ class CreateSubFamilysTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sub_familys');
+        Schema::dropIfExists('sub_families');
     }
 }

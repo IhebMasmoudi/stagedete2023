@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\SubFamily;
 use Illuminate\Http\Request;
+use App\Locality_Family;
 
 class SubFamilyController extends Controller
 {
@@ -13,12 +14,13 @@ class SubFamilyController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        
-        $subfamilys=subFamily::all();
-
-        return view('subfamilys.subfamilys',compact('subfamilys'));
+    { {
+            $locality_families = Locality_Family::all();
+            $sub_familys = SubFamily::all();
+            return view('subfamily.subfamily', compact('locality_families', 'sub_familys'));
+        }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -38,8 +40,29 @@ class SubFamilyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'SubFamily' => 'required|unique:sub_families',
+            'FamilyCode' => 'required',
+            // Add any other validation rules for the input fields
+        ]);
+    
+        // Check if the SubFamily already exists in the database
+        $existingSubFamily = SubFamily::where('SubFamily', $input['SubFamily'])->exists();
+    
+        if ($existingSubFamily) {
+            session()->flash('error', 'SubFamily already exists.');
+            return redirect('/subfamily');
+        } else {
+            SubFamily::create([
+                'SubFamily' => $input['SubFamily'],
+                'FamilyCode' => $input['FamilyCode'],
+            ]);
+    
+            session()->flash('success', 'SubFamily created successfully.');
+            return redirect('/subfamily');
+        }
     }
+    
 
     /**
      * Display the specified resource.
@@ -70,10 +93,25 @@ class SubFamilyController extends Controller
      * @param  \App\SubFamily  $subFamily
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubFamily $subFamily)
+    public function update(Request $request)
     {
-        //
+        $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
+        $localFamily = Locality_Family::where('LocalFamily', $request->LocalFamily)->first();
+    
+        if ($localFamily) {
+            $subFamily->update([
+                'SubFamily' => $request->SubFamily,
+                'FamilyCode' => $localFamily->FamilyCode,
+            ]);
+    
+            session()->flash('Edit', 'Edit successful');
+            return back();
+        } else {
+            // Handle the case when the LocalFamily doesn't exist
+            return back()->withErrors('LocalFamily does not exist.');
+        }
     }
+    
 
     /**
      * Remove the specified resource from storage.
@@ -81,8 +119,16 @@ class SubFamilyController extends Controller
      * @param  \App\SubFamily  $subFamily
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SubFamily $subFamily)
-    {
-        //
-    }
+    public function destroy(Request $request)
+{
+    $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
+    
+    // Perform any additional checks or validations before deleting the record
+
+    $subFamily->delete();
+
+    session()->flash('Delete', 'Delete successful');
+    return back();
+}
+
 }

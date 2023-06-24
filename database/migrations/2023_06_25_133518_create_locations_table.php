@@ -20,7 +20,7 @@ class CreateLocationsTable extends Migration
             $table->unsignedInteger('DistrictCode'); // Use unsignedInteger for foreign key
             $table->integer('SubFamilyCode')->unsigned();
             $table->foreign('DistrictCode')->references('id')->on('districts');
-            $table->foreign('SubFamilyCode')->references('SubFamilyCode')->on('sub_familys');
+            $table->foreign('SubFamilyCode')->references('SubFamilyCode')->on('sub_families');
             $table->timestamps();
         });
     }
