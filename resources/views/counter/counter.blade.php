@@ -20,7 +20,7 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">Settings</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Sub family</span>
+            <h4 class="content-title mb-0 my-auto">Settings</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Counter</span>
         </div>
     </div>
     <div class="d-flex my-xl-auto right-content">
@@ -79,7 +79,7 @@
         <div class="card mg-b-20">
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
-                    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Sub family</a>
+                    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Counter</a>
 
                 </div>
 
@@ -90,8 +90,17 @@
                         <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0"> Sub family name</th>
-                                <th class="border-bottom-0"> Local Family</th>
+
+                                <th class="border-bottom-0"> Counter Reference</th>
+
+                                <th class="border-bottom-0"> Local Label</th>
+
+                                <th class="border-bottom-0"> Local Address</th>
+
+                                <th class="border-bottom-0"> Counter Type </th>
+
+
+
                                 <th class="border-bottom-0"></th>
 
 
@@ -99,23 +108,28 @@
                         </thead>
                         <tbody>
                             <?php $i = 0; ?>
-                            @foreach ($sub_familys as $sub_family)
+                            @foreach ($counters as $counter)
                             <?php $i++; ?>
                             <tr>
                                 <td>{{ $i }}</td>
-                                <td>{{ $sub_family->SubFamily }}</td>
-                                <td>{{ $sub_family->localityFamily->LocalFamily }}</td>
+                                <td>{{ $counter->CounterReference }}</td>
+                                <td>{{ $counter->locations->LocalLabel }}</td>
+                                <td>{{ $counter->locations->LocalAddress }}</td>
+                                <td>{{ $counter->counterType->CounterType }}</td>
                                 <td>
-                                <button class="btn btn-outline-success btn-sm" 
-                                data-SubFamily="{{ $sub_family->SubFamily }}"
-                                data-SubFamilyCode="{{ $sub_family->SubFamilyCode }}"
-                               data-LocalFamily="{{ $sub_family->localityFamily->LocalFamily }}"
-                                  data-toggle="modal" data-target="#edit_Product">Edit</button>
+                                    <button class="btn btn-outline-success btn-sm edit-button" 
+                                    data-CounterReference="{{ $counter->CounterReference }}" 
+                                    data-LocalLabel="{{ $counter->locations->LocalLabel }}" 
+                                    data-LocalAddress="{{ $counter->locations->LocalAddress }}" 
+                                    data-CounterType="{{ $counter->counterType->CounterType }}" 
+                                    data-toggle="modal" data-target="#edit_Location">
+                                        Edit
+                                    </button>
 
-                                    <button class="btn btn-outline-danger btn-sm" 
-                                    data-SubFamilyCode="{{ $sub_family->SubFamilyCode }}" 
-                                    data-SubFamily="{{ $sub_family->SubFamily }}" 
-                                    data-toggle="modal" data-target="#modaldemo9">Delete</button>
+                                    <button class="btn btn-outline-danger btn-sm delete-button" 
+                                    data-CounterReference="{{ $counter->CounterReference }}" data-toggle="modal" data-target="#modaldemo9">
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -127,67 +141,87 @@
         </div>
     </div>
     <!-- Basic modal -->
+
     <div class="modal" id="modaldemo8">
         <div class="modal-dialog" role="document">
             <div class="modal-content modal-content-demo">
                 <div class="modal-header">
-                    <h6 class="modal-title">Add Sub family</h6><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                    <h6 class="modal-title">Add Counter</h6>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                <form action="{{ route('subfamily.store') }}" method="post">
+                    <form action="{{ route('counter.store') }}" method="post">
                         @csrf
-                    <div class="form-group">
-                        <label for="SubFamily">Sub Family Name</label>
-                        <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
-                        <input type="text" class="form-control" name="SubFamily" id="SubFamily">
-                    </div>
-                    <div class="form-group">
-                        <label for="LocalFamily">Local Family</label>
-                        <select name="LocalFamily" id="LocalFamily" class="custom-select" required>
-                            @foreach ($locality_families as $locality_family)
-                            <option value="{{ $locality_family->id }}">{{ $locality_family->LocalFamily }}</option>
+                        <div class="form-group">
+                            <label for="CounterReference">Counter Reference </label>
+                            <input type="hidden" class="form-control" name="CounterReferenceid" id="CounterReferenceid" value="">
+                            <input type="text" class="form-control" name="CounterReference" id="CounterReference">
+                        </div>
+                        <div class="form-group">
+                        <label for="LocalName">Local Name </label>
+                        <select name="LocalName " id="LocalName" class="custom-select" required>
+                            @foreach ($locations as $location)
+                            
+                            <option value="{{ $location->LocalCode }}">{{ $location->LocalLabel }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="form-group">
+                        <label for="LocalAddress">Local Address </label>
+                        <select name="LocalAddress " id="LocalAddress" class="custom-select" required>
+                            @foreach ($locations as $location)
+                            <option value="{{ $location->LocalCode }}">{{ $location->LocalAddress }}</option>
+                            @endforeach
+                        </select>
                     </div>
-                </form>
+                    <div class="form-group">
+                        <label for="countertype">counter type </label>
+                        <select name="countertype" id="countertype" class="custom-select" required>
+                            @foreach ($counter_types as $counter_type)
+                            <option value="{{ $counter_type->CounterTypeCode }}">{{ $counter_type->CounterType }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End Basic modal -->
-</div>
 
+    <!-- End Basic modal -->
+</div>
 
 <!-- edit -->
-<div class="modal fade" id="edit_Product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit_Location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit Location</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="subfamily/update" method="post">
+                <form action="location/update" method="post">
                     {{ method_field('patch') }}
                     {{ csrf_field() }}
                     <div class="form-group">
-                        <label for="subfamily">Sub Family Name</label>
-                        <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
-
-                        <input type="text" class="form-control" name="SubFamily" id="SubFamily">
+                        <label for="LocalLabel">LocalLabel Name</label>
+                        <input type="hidden" class="form-control" name="LocalCode" id="LocalCode" value="">
+                        <input type="text" class="form-control" name="LocalLabel" id="LocalLabel">
                     </div>
-                    <label for="LocalFamily">Local Family</label>
-                    <select name="LocalFamily" id="LocalFamily" class="custom-select" required>
-                        @foreach ($locality_families as $locality_family)
-                        <option> {{ $locality_family->LocalFamily }} </option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label for="LocalAddress">Local Address</label>
+                        <input type="text" class="form-control" name="LocalAddress" id="LocalAddress">
+                    </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -199,22 +233,23 @@
 </div>
 
 
-<!-- delete -->
+<!-- Delete Modal -->
 <div class="modal" id="modaldemo9">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title"> Delete Sub Family </h6>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Delete Location</h6>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <form action="subfamily/destroy" method="post">
-                {{ method_field('DELETE') }}
-                {{ csrf_field() }}
+            <form action="location/destroy" method="POST">
+                @method('DELETE')
+                @csrf
                 <div class="modal-body">
-                    <p>? Are you sure about the deletion process</p><br>
-                    <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
-
-                    <input type="text" class="form-control" name="SubFamily" id="SubFamily" readonly>
+                    <p>Are you sure about the deletion process?</p>
+                    <input type="hidden" class="form-control" name="LocalCode" id="delete_LocalCode" value="">
+                    <input type="text" class="form-control" name="LocalLabel" id="delete_LocalLabel" readonly>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -224,6 +259,7 @@
         </div>
     </div>
 </div>
+
 <!-- row closed -->
 </div>
 <!-- Container closed -->
@@ -258,27 +294,8 @@
 <!-- Internal Modal js-->
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
-<script>
-    $('#edit_Product').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget)
-    var SubFamily = button.data('subfamily')
-    var LocalFamily = button.data('localfamily')
-    var SubFamilyCode = button.data('subfamilycode')
-    var modal = $(this)
-    modal.find('.modal-body #SubFamily').val(SubFamily);
-    modal.find('.modal-body #LocalFamily').val(LocalFamily);
-    modal.find('.modal-body #SubFamilyCode').val(SubFamilyCode);
-})
-</script>
 
-<script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var SubFamilyCode = button.data('subfamilycode')
-        var SubFamily = button.data('subfamily')
-        var modal = $(this)
-        modal.find('.modal-body #SubFamilyCode').val(SubFamilyCode);
-        modal.find('.modal-body #SubFamily').val(SubFamily);
-    })
-</script>
+
+
+
 @endsection

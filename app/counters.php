@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class counters extends Model
 {
+    protected $primaryKey = 'CounterReferenceid';
     protected $fillable = [
+        'CounterReference',
         'LocalCode',
         'CounterTypeCode'
     ];
@@ -18,6 +20,6 @@ class counters extends Model
 
     public function counterType()
     {
-        return $this->belongsTo(CounterType::class, 'CounterTypeCode');
+        return $this->belongsTo(counter_types::class, 'CounterTypeCode');
     }
 }

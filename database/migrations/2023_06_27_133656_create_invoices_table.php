@@ -14,7 +14,7 @@ class CreateInvoicesTable extends Migration
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('idinvoice');
             $table->string('invoice_number');
             $table->date('invoice_Date');
             $table->date('due_date');
@@ -28,8 +28,8 @@ class CreateInvoicesTable extends Migration
             $table->integer('value_status');
             $table->text('note')->nullable();
             $table->string('user');
-            $table->integer('CounterReference')->unsigned();
-            $table->foreign('CounterReference')->references('CounterReference')->on('counters');
+            $table->integer('CounterReferenceid')->unsigned();
+            $table->foreign('CounterReferenceid')->references('CounterReferenceid')->on('counters');
             $table->softDeletes();
             $table->timestamps();
         });

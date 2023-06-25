@@ -94,9 +94,9 @@
                                 <th class="border-bottom-0"> Local Label</th>
 
                                 <th class="border-bottom-0"> Local Address</th>
-                                
+
                                 <th class="border-bottom-0"> District </th>
-                                
+
                                 <th class="border-bottom-0"> Sub Family </th>
 
                                 <th class="border-bottom-0"></th>
@@ -115,20 +115,20 @@
                                 <td>{{ $location->district->district_name }}</td>
                                 <td>{{ $location->subFamily->SubFamily }}</td>
                                 <td>
-                                <button class="btn btn-outline-success btn-sm edit-button"
-    data-LocalLabel="{{ $location->LocalLabel }}"
-    data-LocalAddress="{{ $location->LocalAddress }}"
-    data-DistrictCode="{{ $location->district->id }}"
-    data-SubFamilyCode="{{ $location->subFamily->SubFamilyCode }}"
-    data-LocalCode="{{ $location->LocalCode }}"
-    data-toggle="modal"
-    data-target="#edit_Location">
-    Edit
-</button>
-           
-                                    <button class="btn btn-outline-danger btn-sm"   data-LocalLabel="{{ $location->LocalLabel }}"
-                                    data-LocalCode="{{ $location->LocalCode }}" data-toggle="modal" 
-                                    data-target="#modaldemo9">Delete</button>
+                                    <button class="btn btn-outline-success btn-sm edit-button" 
+                                    data-LocalLabel="{{ $location->LocalLabel }}" data-LocalAddress="{{ $location->LocalAddress }}" 
+                                    data-DistrictCode="{{ $location->district->id }}" data-SubFamilyCode="{{ $location->subFamily->SubFamilyCode }}" data-LocalCode="{{ $location->LocalCode }}" data-toggle="modal" data-target="#edit_Location">
+                                        Edit
+                                    </button>
+
+
+                                    <button class="btn btn-outline-danger btn-sm delete-button" 
+            data-locallabel="{{ $location->LocalLabel }}" 
+            data-localcode="{{ $location->LocalCode }}" 
+            data-toggle="modal" 
+            data-target="#modaldemo9">
+                Delete
+            </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -139,56 +139,56 @@
             </div>
         </div>
     </div>
- <!-- Basic modal -->
- 
- <div class="modal" id="modaldemo8">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content modal-content-demo">
-            <div class="modal-header">
-                <h6 class="modal-title">Add Location</h6>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('location.store') }}" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label for="LocalLabel">LocalLabel Name</label>
-                        <input type="hidden" class="form-control" name="LocalLabel" id="LocalLabel" value="">
-                        <input type="text" class="form-control" name="LocalLabel" id="LocalLabel">
-                    </div>
-                    <div class="form-group">
-                        <label for="LocalAddress">Local Address</label>
-                        <input type="text" class="form-control" name="LocalAddress" id="LocalAddress">
-                    </div>
-                    <div class="form-group">
-                        <label for="DistrictCode">Sub districts</label>
-                        <select name="DistrictCode" id="DistrictCode" class="custom-select" required>
-                            @foreach ($districts as $district)
+    <!-- Basic modal -->
+
+    <div class="modal" id="modaldemo8">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Add Location</h6>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('location.store') }}" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <label for="LocalLabel">LocalLabel Name</label>
+                            <input type="hidden" class="form-control" name="LocalLabel" id="LocalLabel" value="">
+                            <input type="text" class="form-control" name="LocalLabel" id="LocalLabel">
+                        </div>
+                        <div class="form-group">
+                            <label for="LocalAddress">Local Address</label>
+                            <input type="text" class="form-control" name="LocalAddress" id="LocalAddress">
+                        </div>
+                        <div class="form-group">
+                            <label for="DistrictCode">Sub districts</label>
+                            <select name="DistrictCode" id="DistrictCode" class="custom-select" required>
+                                @foreach ($districts as $district)
                                 <option value="{{ $district->id }}">{{ $district->district_name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="SubFamilyCode">Sub Family</label>
-                        <select name="SubFamilyCode" id="SubFamilyCode" class="custom-select" required>
-                            @foreach ($subFamilies as $subFamily)
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="SubFamilyCode">Sub Family</label>
+                            <select name="SubFamilyCode" id="SubFamilyCode" class="custom-select" required>
+                                @foreach ($subFamilies as $subFamily)
                                 <option value="{{ $subFamily->SubFamilyCode }}">{{ $subFamily->SubFamily }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </form>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- End Basic modal -->
+    <!-- End Basic modal -->
 </div>
 
 <!-- edit -->
@@ -218,7 +218,7 @@
                         <label for="DistrictCode">Sub districts</label>
                         <select name="DistrictCode" id="DistrictCode" class="custom-select" required>
                             @foreach ($districts as $district)
-                                <option value="{{ $district->id }}">{{ $district->district_name }}</option>
+                            <option value="{{ $district->id }}">{{ $district->district_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -226,7 +226,7 @@
                         <label for="SubFamilyCode">Sub Family</label>
                         <select name="SubFamilyCode" id="SubFamilyCode" class="custom-select" required>
                             @foreach ($subFamilies as $subFamily)
-                                <option value="{{ $subFamily->SubFamilyCode }}">{{ $subFamily->SubFamily }}</option>
+                            <option value="{{ $subFamily->SubFamilyCode }}">{{ $subFamily->SubFamily }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -241,22 +241,23 @@
 </div>
 
 
-<!-- delete -->
+<!-- Delete Modal -->
 <div class="modal" id="modaldemo9">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content modal-content-demo">
             <div class="modal-header">
-                <h6 class="modal-title"> Delete Location </h6>
-                <button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
+                <h6 class="modal-title">Delete Location</h6>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <form action="location/destroy" method="post">
-                {{ method_field('DELETE') }}
-                {{ csrf_field() }}
+            <form action="location/destroy" method="POST">
+                @method('DELETE')
+                @csrf
                 <div class="modal-body">
-                    <p>? Are you sure about the deletion process</p><br>
-                    <input type="hidden" class="form-control" name="LocalCode" id="LocalCode" value="">
-
-                    <input type="text" class="form-control" name="LocalLabel" id="LocalLabel"readonly>
+                    <p>Are you sure about the deletion process?</p>
+                    <input type="hidden" class="form-control" name="LocalCode" id="delete_LocalCode" value="">
+                    <input type="text" class="form-control" name="LocalLabel" id="delete_LocalLabel" readonly>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -266,6 +267,7 @@
         </div>
     </div>
 </div>
+
 <!-- row closed -->
 </div>
 <!-- Container closed -->
@@ -302,31 +304,31 @@
 
 
 <script>
-   $('#edit_Location').on('show.bs.modal', function (event) {
-    var button = $(event.relatedTarget);
-    var LocalLabel = button.data('locallabel');
-    var LocalAddress = button.data('localaddress');
-    var DistrictCode = button.data('districtcode');
-    var SubFamilyCode = button.data('subfamilycode');
-    var LocalCode = button.data('localcode');
-    var modal = $(this);
+    $('#edit_Location').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var LocalLabel = button.data('locallabel');
+        var LocalAddress = button.data('localaddress');
+        var DistrictCode = button.data('districtcode');
+        var SubFamilyCode = button.data('subfamilycode');
+        var LocalCode = button.data('localcode');
+        var modal = $(this);
 
-    modal.find('.modal-body #LocalLabel').val(LocalLabel);
-    modal.find('.modal-body #LocalAddress').val(LocalAddress);
-    modal.find('.modal-body #DistrictCode').val(DistrictCode);
-    modal.find('.modal-body #SubFamilyCode').val(SubFamilyCode);
-    modal.find('.modal-body #LocalCode').val(LocalCode);
-});
+        modal.find('.modal-body #LocalLabel').val(LocalLabel);
+        modal.find('.modal-body #LocalAddress').val(LocalAddress);
+        modal.find('.modal-body #DistrictCode').val(DistrictCode);
+        modal.find('.modal-body #SubFamilyCode').val(SubFamilyCode);
+        modal.find('.modal-body #LocalCode').val(LocalCode);
+    });
 </script>
 
 <script>
-    $('#modaldemo9').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget)
-        var LocalCode = button.data('LocalCode')
-        var LocalLabel = button.data('LocalLabel')
-        var modal = $(this)
-        modal.find('.modal-body #LocalCode').val(LocalCode);
-        modal.find('.modal-body #LocalLabel').val(LocalLabel);
-    })
+    $(document).ready(function () {
+        $('.delete-button').click(function () {
+            var LocalCode = $(this).data('localcode');
+            var LocalLabel = $(this).data('locallabel');
+            $('#delete_LocalCode').val(LocalCode);
+            $('#delete_LocalLabel').val(LocalLabel);
+        });
+    });
 </script>
 @endsection

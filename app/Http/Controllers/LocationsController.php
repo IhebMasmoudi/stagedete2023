@@ -6,6 +6,7 @@ use App\locations;
 use App\District;
 use App\SubFamily;
 use Illuminate\Http\Request;
+
 class LocationsController extends Controller
 {
     /**
@@ -93,23 +94,23 @@ class LocationsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-  public function update(Request $request)
-{
-    $location = locations::findOrFail($request->LocalCode);
-   
-   $district = District::findOrFail($request->DistrictCode);
-    $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
+    public function update(Request $request)
+    {
+        $location = locations::findOrFail($request->LocalCode);
 
-    $location->update([
-        'LocalLabel' => $request->LocalLabel,
-        'LocalAddress' => $request->LocalAddress,
-        'DistrictCode' => $district->id,
-        'SubFamilyCode' => $subFamily->SubFamilyCode,
-    ]);
+        $district = District::findOrFail($request->DistrictCode);
+        $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
 
-    session()->flash('edit', 'Edit successful');
-    return redirect('/location');
-}
+        $location->update([
+            'LocalLabel' => $request->LocalLabel,
+            'LocalAddress' => $request->LocalAddress,
+            'DistrictCode' => $district->id,
+            'SubFamilyCode' => $subFamily->SubFamilyCode,
+        ]);
+
+        session()->flash('edit', 'Edit successful');
+        return redirect('/location');
+    }
 
 
 
@@ -121,15 +122,11 @@ class LocationsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
-    {
-        $location = locations::findOrFail($request->LocalCode);
-   
-    
-    // Perform any additional checks or validations before deleting the record
-
+{
+    $location = locations::findOrFail($request->LocalCode);
     $location->delete();
 
     session()->flash('delete', 'Delete successful');
-    return redirect('/location');
-    }
+    return back();
+}
 }

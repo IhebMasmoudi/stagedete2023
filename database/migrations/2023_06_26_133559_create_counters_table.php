@@ -14,7 +14,8 @@ class CreateCountersTable extends Migration
     public function up()
     {
         Schema::create('counters', function (Blueprint $table) {
-            $table->increments('CounterReference');
+            $table->increments('CounterReferenceid');
+            $table->string('CounterReference');
             $table->integer('LocalCode')->unsigned();
             $table->integer('CounterTypeCode')->unsigned();
             $table->foreign('LocalCode')->references('LocalCode')->on('locations');

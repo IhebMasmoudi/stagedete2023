@@ -23,10 +23,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('invoices','InvoicesController');
+Route::resource('invoices', 'InvoicesController');
 
 
-Route::resource('districts','DistrictController');
+Route::resource('districts', 'DistrictController');
 
 Route::resource('locality_family', 'LocalityFamilyController');
 
@@ -38,6 +38,8 @@ Route::resource('countertype', 'CounterTypeController');
 
 
 Route::resource('location', 'LocationsController');
+
+Route::resource('counter', 'CounterController');
 
 
 Route::get('/{page}', 'AdminController@index');

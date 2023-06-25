@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Counter;
+use App\counters;
 use Illuminate\Http\Request;
+use App\counter_types;
+use App\locations;
+
 
 class CounterController extends Controller
 {
@@ -14,7 +17,11 @@ class CounterController extends Controller
      */
     public function index()
     {
-        //
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+        return view('counter.counter', compact('counters', 'locations', 'counter_types'));
     }
 
     /**
@@ -32,11 +39,33 @@ class CounterController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */
+     */ 
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'CounterReference' => 'required',
+            'LocalCode' => 'required',      
+               
+            'CounterTypeCode' => 'required',
+            // Add any other validation rules for the input fields
+        ]);
+    
+        // Check if the Counter already exists in the database based on CounterReference
+        $existingCounter = counters::where('CounterReference', $input['CounterReference'])->exists();
+    
+        if ($existingCounter) {
+            session()->flash('error', 'Counter already exists.');
+            return redirect('/counter');
+        } else {
+            // Create the counter record
+            // Assuming you have a "counters" model, adjust it accordingly if it has a different name
+            counters::create($input);
+    
+            session()->flash('Add', 'Counter created successfully.');
+            return redirect('/counter');
+        }
     }
+    
 
     /**
      * Display the specified resource.
@@ -44,7 +73,7 @@ class CounterController extends Controller
      * @param  \App\Counter  $counter
      * @return \Illuminate\Http\Response
      */
-    public function show(Counter $counter)
+    public function show(counters $counter)
     {
         //
     }
@@ -55,7 +84,7 @@ class CounterController extends Controller
      * @param  \App\Counter  $counter
      * @return \Illuminate\Http\Response
      */
-    public function edit(Counter $counter)
+    public function edit(counters $counter)
     {
         //
     }
@@ -67,7 +96,7 @@ class CounterController extends Controller
      * @param  \App\Counter  $counter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Counter $counter)
+    public function update(Request $request, counters $counter)
     {
         //
     }
@@ -78,7 +107,7 @@ class CounterController extends Controller
      * @param  \App\Counter  $counter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Counter $counter)
+    public function destroy(counters $counter)
     {
         //
     }

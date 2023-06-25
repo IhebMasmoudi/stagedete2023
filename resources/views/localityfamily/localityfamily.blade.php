@@ -108,7 +108,10 @@
 								<td>{{ $x->LocalFamily }}</td>
 
 								<td>
-									<a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale" data-id="{{ $x->FamilyCode }}" data-district_name="{{ $x->LocalFamily }}" data-toggle="modal" href="#exampleModal2" title="edit">edit<i class="las la-pen"></i></a>
+									<a class="btn btn-outline-success btn-sm"  data-effect="effect-scale" data-id="{{ $x->FamilyCode }}" 
+									data-district_name="{{ $x->LocalFamily }}" 
+									data-toggle="modal" href="#exampleModal2" 
+									title="edit">edit<i class="las la-pen"></i></a>
 
 									<a class="btn btn-outline-danger btn-sm" data-effect="effect-scale" data-id="{{ $x->FamilyCode }}" data-district_name="{{ $x->LocalFamily }}" data-toggle="modal" href="#modaldemo9" title="delete">delete<i class="las la-trash"></i></a>
 								</td>
