@@ -4,8 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Location extends Model
+class locations extends Model
 {
+    protected $primaryKey = 'LocalCode';
     protected $fillable = [
         'LocalLabel',
         'LocalAddress',
@@ -15,11 +16,11 @@ class Location extends Model
 
     public function district()
     {
-        return $this->belongsTo(District::class, 'DistrictCode');
+        return $this->belongsTo(District::class, 'DistrictCode', 'id');
     }
 
     public function subFamily()
     {
-        return $this->belongsTo(SubFamily::class, 'SubFamilyCode');
+        return $this->belongsTo(SubFamily::class, 'SubFamilyCode', 'SubFamilyCode');
     }
 }

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Locations;
+use App\locations;
+use App\District;
+use App\SubFamily;
 use Illuminate\Http\Request;
-
 class LocationsController extends Controller
 {
     /**
@@ -14,8 +15,13 @@ class LocationsController extends Controller
      */
     public function index()
     {
-        //
+        $locations = locations::all();
+        $subFamilies = SubFamily::all();
+        $districts = District::all();
+        return view('location.location', compact('locations', 'subFamilies', 'districts'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -35,7 +41,26 @@ class LocationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->validate([
+            'LocalLabel' => 'required',
+            'LocalAddress' => 'required',
+            'DistrictCode' => 'required',
+            'SubFamilyCode' => 'required',
+            // Add any other validation rules for the input fields
+        ]);
+
+        // Check if the Location already exists in the database based on LocalLabel
+        $existingLocation = locations::where('LocalLabel', $input['LocalLabel'])->exists();
+
+        if ($existingLocation) {
+            session()->flash('error', 'Location already exists.');
+            return redirect('/location');
+        } else {
+            locations::create($input);
+
+            session()->flash('Add', 'Location created successfully.');
+            return redirect('/location');
+        }
     }
 
     /**
@@ -44,7 +69,7 @@ class LocationsController extends Controller
      * @param  \App\Locations  $locations
      * @return \Illuminate\Http\Response
      */
-    public function show(Locations $locations)
+    public function show(Request $request)
     {
         //
     }
@@ -55,7 +80,7 @@ class LocationsController extends Controller
      * @param  \App\Locations  $locations
      * @return \Illuminate\Http\Response
      */
-    public function edit(Locations $locations)
+    public function edit(Request $request)
     {
         //
     }
@@ -67,10 +92,27 @@ class LocationsController extends Controller
      * @param  \App\Locations  $locations
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Locations $locations)
-    {
-        //
-    }
+
+  public function update(Request $request)
+{
+    $location = locations::findOrFail($request->LocalCode);
+   
+   $district = District::findOrFail($request->DistrictCode);
+    $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
+
+    $location->update([
+        'LocalLabel' => $request->LocalLabel,
+        'LocalAddress' => $request->LocalAddress,
+        'DistrictCode' => $district->id,
+        'SubFamilyCode' => $subFamily->SubFamilyCode,
+    ]);
+
+    session()->flash('edit', 'Edit successful');
+    return redirect('/location');
+}
+
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -78,8 +120,16 @@ class LocationsController extends Controller
      * @param  \App\Locations  $locations
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Locations $locations)
+    public function destroy(Request $request)
     {
-        //
+        $location = locations::findOrFail($request->LocalCode);
+   
+    
+    // Perform any additional checks or validations before deleting the record
+
+    $location->delete();
+
+    session()->flash('delete', 'Delete successful');
+    return redirect('/location');
     }
 }

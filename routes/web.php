@@ -37,4 +37,7 @@ Route::resource('subfamily', 'SubFamilyController');
 Route::resource('countertype', 'CounterTypeController');
 
 
+Route::resource('location', 'LocationsController');
+
+
 Route::get('/{page}', 'AdminController@index');

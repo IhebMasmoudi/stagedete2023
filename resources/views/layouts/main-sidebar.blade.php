@@ -69,6 +69,8 @@
 
 							
 							<li><a class="slide-item"  href="{{ url('/' . $page='countertype') }}">Counter Type</a></li>
+							
+							<li><a class="slide-item"  href="{{ url('/' . $page='location') }}">location</a></li>
 
 							<li><a class="slide-item" href="{{ url('/' . $page='editprofile') }}">Counter</a></li>
 						</ul>

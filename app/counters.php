@@ -11,9 +11,9 @@ class counters extends Model
         'CounterTypeCode'
     ];
 
-    public function location()
+    public function locations()
     {
-        return $this->belongsTo(Location::class, 'LocalCode');
+        return $this->belongsTo(locations::class, 'LocalCode');
     }
 
     public function counterType()
