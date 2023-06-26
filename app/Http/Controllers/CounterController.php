@@ -41,31 +41,31 @@ class CounterController extends Controller
      * @return \Illuminate\Http\Response
      */ 
     public function store(Request $request)
-    {
-        $input = $request->validate([
-            'CounterReference' => 'required',
-            'LocalCode' => 'required',      
-               
-            'CounterTypeCode' => 'required',
-            // Add any other validation rules for the input fields
-        ]);
-    
-        // Check if the Counter already exists in the database based on CounterReference
-        $existingCounter = counters::where('CounterReference', $input['CounterReference'])->exists();
-    
-        if ($existingCounter) {
-            session()->flash('error', 'Counter already exists.');
-            return redirect('/counter');
-        } else {
-            // Create the counter record
-            // Assuming you have a "counters" model, adjust it accordingly if it has a different name
-            counters::create($input);
-    
-            session()->flash('Add', 'Counter created successfully.');
-            return redirect('/counter');
-        }
+{
+
+   
+    $input = $request->validate([
+        'CounterReference' => 'required',
+        'LocalCode' => 'required',
+        'CounterTypeCode' => 'required',
+        // Add any other validation rules for the input fields
+    ]);
+
+    // Check if the Counter already exists in the database based on CounterReference
+    $existingCounter = counters::where('CounterReference', $input['CounterReference'])->exists();
+
+    if ($existingCounter) {
+        session()->flash('error', 'Counter already exists.');
+        return redirect('/counter');
+    } else {
+        // Create the counter record
+        // Assuming you have a "counters" model, adjust it accordingly if it has a different name
+        counters::create($input);
+
+        session()->flash('Add', 'Counter created successfully.');
+        return redirect('/counter');
     }
-    
+}
 
     /**
      * Display the specified resource.
@@ -96,9 +96,21 @@ class CounterController extends Controller
      * @param  \App\Counter  $counter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, counters $counter)
-    {
-        //
+    public function update(Request $request)
+    {  
+        
+        $counter = counters::findOrFail($request->counterReferenceId);
+        $counter_types = counter_types::findOrFail($request->CounterTypeCode);
+        $location = locations::findOrFail($request->LocalCode);
+    
+        $counter->update([
+            'CounterReference' => $request->CounterReference,
+            'LocalCode' => $location->LocalCode,
+            'CounterTypeCode' => $counter_types->CounterTypeCode,
+        ]);
+    
+        session()->flash('edit', 'Edit successful');
+        return redirect('/counter');
     }
 
     /**
@@ -107,8 +119,13 @@ class CounterController extends Controller
      * @param  \App\Counter  $counter
      * @return \Illuminate\Http\Response
      */
-    public function destroy(counters $counter)
-    {
-        //
+    public function destroy(Request $request)
+    {   
+        $CounterReferenceid = counters::findOrFail($request->counterReferenceId);
+        
+    $CounterReferenceid->delete();
+
+    session()->flash('delete', 'Delete successful');
+    return back();
     }
 }

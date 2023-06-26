@@ -102,6 +102,7 @@
 
 
                                 <th class="border-bottom-0"></th>
+                                <th class="border-bottom-0"></th>
 
 
                             </tr>
@@ -116,20 +117,25 @@
                                 <td>{{ $counter->locations->LocalLabel }}</td>
                                 <td>{{ $counter->locations->LocalAddress }}</td>
                                 <td>{{ $counter->counterType->CounterType }}</td>
+                                <td>{{  $counter->CounterReferenceid }}</td>
                                 <td>
-                                    <button class="btn btn-outline-success btn-sm edit-button" 
-                                    data-CounterReference="{{ $counter->CounterReference }}" 
-                                    data-LocalLabel="{{ $counter->locations->LocalLabel }}" 
-                                    data-LocalAddress="{{ $counter->locations->LocalAddress }}" 
-                                    data-CounterType="{{ $counter->counterType->CounterType }}" 
-                                    data-toggle="modal" data-target="#edit_Location">
-                                        Edit
-                                    </button>
+                                <button class="btn btn-outline-success btn-sm edit-button" 
+                                data-counter-reference-id="{{ $counter->CounterReferenceid }}"
+                                  data-CounterReference="{{ $counter->CounterReference }}"
+                                  data-LocalCode="{{ $counter->locations->LocalCode }}"
+                                  data-CounterTypeCode="{{ $counter->counterType->CounterTypeCode }}"
+                                  data-toggle="modal" data-target="#edit_counter">
+                                    Edit
+                                 </button>
 
-                                    <button class="btn btn-outline-danger btn-sm delete-button" 
-                                    data-CounterReference="{{ $counter->CounterReference }}" data-toggle="modal" data-target="#modaldemo9">
-                                        Delete
-                                    </button>
+                                   
+                                 <button class="btn btn-outline-danger btn-sm delete-button" 
+        data-counter-reference-id="{{ $counter->CounterReferenceid }}" 
+        data-counter-reference="{{ $counter->CounterReference }}" 
+        data-toggle="modal" 
+        data-target="#modaldemo9">
+    Delete
+</button>
                                 </td>
                             </tr>
                             @endforeach
@@ -155,35 +161,27 @@
                     <form action="{{ route('counter.store') }}" method="post">
                         @csrf
                         <div class="form-group">
-                            <label for="CounterReference">Counter Reference </label>
-                            <input type="hidden" class="form-control" name="CounterReferenceid" id="CounterReferenceid" value="">
+                            <label for="$counter->CounterReference">Counter Reference </label>
+
                             <input type="text" class="form-control" name="CounterReference" id="CounterReference">
                         </div>
                         <div class="form-group">
-                        <label for="LocalName">Local Name </label>
-                        <select name="LocalName " id="LocalName" class="custom-select" required>
-                            @foreach ($locations as $location)
-                            
-                            <option value="{{ $location->LocalCode }}">{{ $location->LocalLabel }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="LocalAddress">Local Address </label>
-                        <select name="LocalAddress " id="LocalAddress" class="custom-select" required>
-                            @foreach ($locations as $location)
-                            <option value="{{ $location->LocalCode }}">{{ $location->LocalAddress }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="countertype">counter type </label>
-                        <select name="countertype" id="countertype" class="custom-select" required>
-                            @foreach ($counter_types as $counter_type)
-                            <option value="{{ $counter_type->CounterTypeCode }}">{{ $counter_type->CounterType }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                            <label for="LocalCode">Local Name</label>
+                            <select name="LocalCode" id="LocalCode" class="custom-select" required>
+                                @foreach ($locations as $location)
+                                <option value="{{ $location->LocalCode }}">{{ $location->LocalLabel }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="CounterTypeCode">counter type </label>
+                            <select name="CounterTypeCode" id="CounterTypeCode" class="custom-select" required>
+                                @foreach ($counter_types as $counter_type)
+                                <option value="{{ $counter_type->CounterTypeCode }}">{{ $counter_type->CounterType }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Add</button>
@@ -199,27 +197,41 @@
 </div>
 
 <!-- edit -->
-<div class="modal fade" id="edit_Location" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="edit_counter" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Location</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Edit counter</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="location/update" method="post">
-                    {{ method_field('patch') }}
-                    {{ csrf_field() }}
+                <form action="counter/update" method="post">
+                    @method('patch')
+                    @csrf
+
                     <div class="form-group">
-                        <label for="LocalLabel">LocalLabel Name</label>
-                        <input type="hidden" class="form-control" name="LocalCode" id="LocalCode" value="">
-                        <input type="text" class="form-control" name="LocalLabel" id="LocalLabel">
+                        <label for="CounterReference">Counter Reference </label>
+                        <input type="hidden" class="form-control" name="counterReferenceId" id="counterReferenceId" value="">
+                        <input type="text" class="form-control" name="CounterReference" id="CounterReference">
                     </div>
                     <div class="form-group">
-                        <label for="LocalAddress">Local Address</label>
-                        <input type="text" class="form-control" name="LocalAddress" id="LocalAddress">
+                        <label for="LocalCode">Local Name</label>
+                        <select name="LocalCode" id="LocalCode" class="custom-select" required>
+                            @foreach ($locations as $location)
+                            <option value="{{ $location->LocalCode }}">{{ $location->LocalLabel }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="CounterTypeCode">Counter Type</label>
+                        <select name="CounterTypeCode" id="CounterTypeCode" class="custom-select" required>
+                            @foreach ($counter_types as $counter_type)
+                            <option value="{{ $counter_type->CounterTypeCode }}">{{ $counter_type->CounterType }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <div class="modal-footer">
@@ -232,7 +244,6 @@
     </div>
 </div>
 
-
 <!-- Delete Modal -->
 <div class="modal" id="modaldemo9">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -243,13 +254,13 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="location/destroy" method="POST">
+            <form action="counter/destroy" method="POST">
                 @method('DELETE')
                 @csrf
                 <div class="modal-body">
                     <p>Are you sure about the deletion process?</p>
-                    <input type="hidden" class="form-control" name="LocalCode" id="delete_LocalCode" value="">
-                    <input type="text" class="form-control" name="LocalLabel" id="delete_LocalLabel" readonly>
+                    <input type="hidden" class="form-control" name="counterReferenceId" id="counterReferenceId" value="">
+                    <input type="text" class="form-control" name="counterReference" id="counterReference" readonly>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -259,6 +270,7 @@
         </div>
     </div>
 </div>
+
 
 <!-- row closed -->
 </div>
@@ -295,7 +307,32 @@
 <script src="{{URL::asset('assets/js/modal.js')}}"></script>
 
 
+<script>
+    $('#edit_counter').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var counterReferenceId = button.data('counter-reference-id');
+    var CounterReference = button.data('counterreference');
+    var LocalCode = button.data('localcode');
+    var CounterTypeCode = button.data('countertypecode');
+    var modal = $(this);
 
+    modal.find('.modal-body #CounterReference').val(CounterReference);
+    modal.find('.modal-body #LocalCode').val(LocalCode);
+    modal.find('.modal-body #CounterTypeCode').val(CounterTypeCode);
+    modal.find('.modal-body #counterReferenceId').val(counterReferenceId);
+});
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.delete-button').click(function () {
+            var counterReferenceId = $(this).data('counter-reference-id');
+            var counterReference = $(this).data('counter-reference');
+            $('#counterReferenceId').val(counterReferenceId);
+            $('#counterReference').val(counterReference);
+        });
+    });
+</script>
 
 
 @endsection
