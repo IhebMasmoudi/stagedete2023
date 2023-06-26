@@ -13,7 +13,7 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">Bills</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Bills List</span>
+							<h4 class="content-title mb-0 my-auto">Invoices</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ invoices List</span>
 						</div>
 					</div>
 					
@@ -30,10 +30,14 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
-									<h4 class="card-title mg-b-0">Bordered Table</h4>
+									<h4 class="card-title mg-b-0">invoices Table</h4>
 									<i class="mdi mdi-dots-horizontal text-gray"></i>
 								</div>
-								<p class="tx-12 tx-gray-500 mb-2">Example of Valex Bordered Table.. <a href="">Learn more</a></p>
+								<div class="d-flex justify-content-between">
+								<a href="invoices/create" class="modal-effect btn btn-sm btn-primary" style="color:white">
+								<i class="fas fa-plus"></i>&nbsp; Add invoices</a>
+
+                </div>
 							</div>
 							<div class="card-body">
 								<div class="table-responsive">
@@ -48,15 +52,17 @@
 
 												<th class="border-bottom-0">due_date</th>
 
-												<th class="border-bottom-0">counter</th>
+												<th class="border-bottom-0">Counter Reference</th>
 
-												<th class="border-bottom-0">district</th>
+												<th class="border-bottom-0">Counter type </th>
+
+												<th class="border-bottom-0">Local Label</th>
 												
 												<th class="border-bottom-0">discount</th>
 												
 												<th class="border-bottom-0">rate_vat</th>
 												
-												<th class="border-bottom-0">value_vat</th>
+												
 												
 												<th class="border-bottom-0">Total</th>
 												
@@ -64,42 +70,50 @@
 												
 												<th class="border-bottom-0">note</th>
 												
-												<th class="border-bottom-0">user</th>
+												<th class="border-bottom-0">Created_by</th>
+												<th class="border-bottom-0"></th>
 												
 
 											</tr>
 										</thead>
 										<tbody>
+										<?php $i = 0; ?>
+                            @foreach ($invoices as $invoice)
+                            <?php $i++; ?>
 											<tr>
-												<td>1</td>
+											<td>{{ $i }}</td>
 
-												<td>41484b17sdf87</td>
+											<td>{{ $invoice->invoice_number }}</td>
 
-												<td>06/18/2023</td>
+											<td>{{ $invoice->invoice_Date }}</td>
 
-												<td>06/18/2023</td>
+											<td>{{ $invoice->due_date }}</td>
 
-												<td>Electricité</td>
+											<td>{{ $invoice->counters->CounterReference }}</td>
 
-												<td>Centre Ville</td>
+											<td>{{ $invoice->counters->counter_types->CounterType }}</td>
+											
+											<td>{{ $invoice->counters->locations->LocalLabel}}</td>
+
+											<td>{{ $invoice->discount }}</td>
+
+											<td>{{ $invoice->rate_vat }}</td>
 												
-												<td>10%</td>
+											
 												
-												<td>1000</td>
+											<td>{{ $invoice->Total }}</td>
 												
-												<td>320,800</td>
+											<td>{{ $invoice->Status }}</td>
 												
-												<td>320,800</td>
+											<td>{{ $invoice->note }}</td>
 												
-												<td>paid </td>
-												
-												<td>retard de 2 mois</td>
-												
-												<td>iheb</td>
+											<td>{{ $invoice->Created_by }}</td>
+
+												<td></td>
 
 											</tr>
 											
-										
+											@endforeach
 										</tbody>
 									</table>
 								</div>

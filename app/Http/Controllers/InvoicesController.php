@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\invoices;
 use Illuminate\Http\Request;
-
+use App\counters;
+use App\counter_types;
+use App\locations;
 class InvoicesController extends Controller
 {
     /**
@@ -14,7 +16,11 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        return view('invoices.invoices');
+        $invoices = invoices::all();
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+        return view('invoices.invoices',compact('invoices','counters', 'locations', 'counter_types'));
     }
 
     /**
@@ -24,8 +30,14 @@ class InvoicesController extends Controller
      */
     public function create()
     {
-        //
+        $invoices = Invoices::all();
+        $counters = Counters::with('locations', 'counterType')->get();
+        $locations = Locations::all();
+        $counter_types = counter_types::all();
+        
+        return view('invoices.add_invoice', compact('invoices', 'counters', 'locations', 'counter_types'));
     }
+    
 
     /**
      * Store a newly created resource in storage.

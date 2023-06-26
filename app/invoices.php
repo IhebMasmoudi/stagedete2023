@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class invoices extends Model
 {
- 
+    protected $primaryKey = 'idinvoice';
     protected $fillable = [
         'invoice_number',
         'invoice_Date',
@@ -15,17 +15,16 @@ class invoices extends Model
         'section',
         'discount',
         'rate_vat',
-        'value_vat',
         'Total',
         'Status',
         'value_status',
         'note',
-        'user',
+        'Created_by',
         'CounterReference',
     ];
 
     public function counter()
     {
-        return $this->belongsTo(Counter::class, 'CounterReference');
+        return $this->belongsTo(Counters::class, 'CounterReference', 'CounterReferenceid');
     }
 }

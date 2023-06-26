@@ -117,7 +117,7 @@
 
                                 <td>
 
-                                    <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale" data-id="{{ $x->id }}" 
+                                    <a class="btn btn-outline-success btn-sm" data-effect="effect-scale" data-id="{{ $x->id }}" 
                                     data-section_name="{{ $x->district_name }}" data-description="{{ $x->description }}" 
                                     data-toggle="modal" href="#exampleModal2" title="edit">edit<i class="las la-pen"></i></a>
 

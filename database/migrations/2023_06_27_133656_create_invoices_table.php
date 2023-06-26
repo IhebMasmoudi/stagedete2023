@@ -18,16 +18,13 @@ class CreateInvoicesTable extends Migration
             $table->string('invoice_number');
             $table->date('invoice_Date');
             $table->date('due_date');
-            $table->string('compteur');
-            $table->string('section');
             $table->string('discount');
             $table->string('rate_vat');
             $table->decimal('value_vat', 8, 2);
             $table->decimal('Total', 8, 2);
             $table->string('Status', 50);
-            $table->integer('value_status');
             $table->text('note')->nullable();
-            $table->string('user');
+            $table->string('Created_by');
             $table->integer('CounterReferenceid')->unsigned();
             $table->foreign('CounterReferenceid')->references('CounterReferenceid')->on('counters');
             $table->softDeletes();
