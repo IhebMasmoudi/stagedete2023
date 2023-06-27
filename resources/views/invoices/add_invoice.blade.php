@@ -139,15 +139,6 @@ Add invoices
 
                     <br>
 
-                    <p class="text-danger">* pdf, jpeg, .jpg, png </p>
-                    <h5 class="card-title">Extension</h5>
-
-                    <div class="col-sm-12 col-md-12">
-                        <input type="file" name="pic" class="dropify" accept=".pdf,.jpg,.png,image/jpeg,image/png" data-height="70" />
-                    </div>
-
-                    <br>
-
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Add</button>
                     </div>
