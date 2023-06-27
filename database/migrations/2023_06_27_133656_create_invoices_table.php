@@ -23,6 +23,7 @@ class CreateInvoicesTable extends Migration
             $table->decimal('value_vat', 8, 2);
             $table->decimal('Total', 8, 2);
             $table->string('Status', 50);
+            $table->integer('value_Status');
             $table->text('note')->nullable();
             $table->string('Created_by');
             $table->integer('CounterReferenceid')->unsigned();
