@@ -25,6 +25,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('invoices', 'InvoicesController');
 
+Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@edit')->name('invoices.edit');
+
+
+Route::patch('invoices/edit/{idinvoice}', 'InvoicesController@update')->name('invoices.update');
+
+Route::get('Invoice_Paid','InvoicesController@Invoice_Paid');
+
+Route::get('Invoice_UnPaid','InvoicesController@Invoice_UnPaid');
+
+Route::get('Invoice_other','InvoicesController@Invoice_UnPaid');
+
+
+
+
 
 Route::resource('districts', 'DistrictController');
 
