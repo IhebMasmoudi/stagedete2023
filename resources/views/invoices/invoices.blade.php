@@ -94,20 +94,20 @@
 								<td>{{ $invoice->rate_vat }}</td>
 								<td>{{ $invoice->Total }}</td>
 								<td>
-                                            @if ($invoice->value_Status == 1)
-                                                <span class="text-success">{{ $invoice->Status }}</span>
-                                            @elseif($invoice->value_Status == 2)
-                                                <span class="text-danger">{{ $invoice->Status }}</span>
-                                            @else
-                                                <span class="text-warning">{{ $invoice->Status }}</span>
-                                            @endif
+									@if ($invoice->value_Status == 1)
+									<span class="text-success">{{ $invoice->Status }}</span>
+									@elseif($invoice->value_Status == 2)
+									<span class="text-danger">{{ $invoice->Status }}</span>
+									@else
+									<span class="text-warning">{{ $invoice->Status }}</span>
+									@endif
 
-                                        </td>
+								</td>
 								<td>{{ $invoice->note }}</td>
 								<td>{{ $invoice->Created_by }}</td>
 								<td><a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.edit', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-success btn-sm edit-button" data-target="#edit_counter">
-    Edit
-</a>
+										Edit
+									</a>
 
 
 
@@ -115,6 +115,9 @@
 									<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
 										Delete
 									</button>
+									<a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.printInvoice', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+	Print
+</a>
 								</td>
 								<td></td>
 							</tr>

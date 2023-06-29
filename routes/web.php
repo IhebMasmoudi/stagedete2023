@@ -34,7 +34,12 @@ Route::get('Invoice_Paid','InvoicesController@Invoice_Paid');
 
 Route::get('Invoice_UnPaid','InvoicesController@Invoice_UnPaid');
 
-Route::get('Invoice_other','InvoicesController@Invoice_UnPaid');
+Route::get('Other','InvoicesController@Other');
+
+//Route::get('Print_invoice/{idinvoice}', 'InvoicesController@printInvoice');
+
+Route::get('invoices/printInvoice/{idinvoice}', 'InvoicesController@printInvoice')->name('invoices.printInvoice');
+
 
 
 
@@ -55,5 +60,14 @@ Route::resource('location', 'LocationsController');
 
 Route::resource('counter', 'CounterController');
 
+
+
+Route::get('/home', 'HomeController@index')->name('home');
+   
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('roles','RoleController');
+    Route::resource('users','UserController');
+   
+});
 
 Route::get('/{page}', 'AdminController@index');
