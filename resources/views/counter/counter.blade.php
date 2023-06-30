@@ -117,25 +117,16 @@
                                 <td>{{ $counter->locations->LocalLabel }}</td>
                                 <td>{{ $counter->locations->LocalAddress }}</td>
                                 <td>{{ $counter->counterType->CounterType }}</td>
-                                <td>{{  $counter->CounterReferenceid }}</td>
+                                <td>{{ $counter->CounterReferenceid }}</td>
                                 <td>
-                                <button class="btn btn-outline-success btn-sm edit-button" 
-                                data-counter-reference-id="{{ $counter->CounterReferenceid }}"
-                                  data-CounterReference="{{ $counter->CounterReference }}"
-                                  data-LocalCode="{{ $counter->locations->LocalCode }}"
-                                  data-CounterTypeCode="{{ $counter->counterType->CounterTypeCode }}"
-                                  data-toggle="modal" data-target="#edit_counter">
-                                    Edit
-                                 </button>
+                                    <button class="btn btn-outline-success btn-sm edit-button" data-counter-reference-id="{{ $counter->CounterReferenceid }}" data-CounterReference="{{ $counter->CounterReference }}" data-LocalCode="{{ $counter->locations->LocalCode }}" data-CounterTypeCode="{{ $counter->counterType->CounterTypeCode }}" data-toggle="modal" data-target="#edit_counter">
+                                        Edit
+                                    </button>
 
-                                   
-                                 <button class="btn btn-outline-danger btn-sm delete-button" 
-        data-counter-reference-id="{{ $counter->CounterReferenceid }}" 
-        data-counter-reference="{{ $counter->CounterReference }}" 
-        data-toggle="modal" 
-        data-target="#modaldemo9">
-    Delete
-</button>
+
+                                    <button class="btn btn-outline-danger btn-sm delete-button" data-counter-reference-id="{{ $counter->CounterReferenceid }}" data-counter-reference="{{ $counter->CounterReference }}" data-toggle="modal" data-target="#modaldemo9">
+                                        Delete
+                                    </button>
                                 </td>
                             </tr>
                             @endforeach
@@ -309,23 +300,23 @@
 
 <script>
     $('#edit_counter').on('show.bs.modal', function(event) {
-    var button = $(event.relatedTarget);
-    var counterReferenceId = button.data('counter-reference-id');
-    var CounterReference = button.data('counterreference');
-    var LocalCode = button.data('localcode');
-    var CounterTypeCode = button.data('countertypecode');
-    var modal = $(this);
+        var button = $(event.relatedTarget);
+        var counterReferenceId = button.data('counter-reference-id');
+        var CounterReference = button.data('counterreference');
+        var LocalCode = button.data('localcode');
+        var CounterTypeCode = button.data('countertypecode');
+        var modal = $(this);
 
-    modal.find('.modal-body #CounterReference').val(CounterReference);
-    modal.find('.modal-body #LocalCode').val(LocalCode);
-    modal.find('.modal-body #CounterTypeCode').val(CounterTypeCode);
-    modal.find('.modal-body #counterReferenceId').val(counterReferenceId);
-});
+        modal.find('.modal-body #CounterReference').val(CounterReference);
+        modal.find('.modal-body #LocalCode').val(LocalCode);
+        modal.find('.modal-body #CounterTypeCode').val(CounterTypeCode);
+        modal.find('.modal-body #counterReferenceId').val(counterReferenceId);
+    });
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('.delete-button').click(function () {
+    $(document).ready(function() {
+        $('.delete-button').click(function() {
             var counterReferenceId = $(this).data('counter-reference-id');
             var counterReference = $(this).data('counter-reference');
             $('#counterReferenceId').val(counterReferenceId);

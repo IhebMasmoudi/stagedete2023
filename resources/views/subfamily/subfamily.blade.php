@@ -142,10 +142,10 @@
                         <input type="text" class="form-control" name="SubFamily" id="SubFamily">
                     </div>
                     <div class="form-group">
-                        <label for="LocalFamily">Local Family</label>
-                        <select name="LocalFamily" id="LocalFamily" class="custom-select" required>
+                        <label for="FamilyCode">Local Family</label>
+                        <select name="FamilyCode" id="FamilyCode" class="custom-select" required>
                             @foreach ($locality_families as $locality_family)
-                            <option value="{{ $locality_family->id }}">{{ $locality_family->LocalFamily }}</option>
+                            <option value="{{ $locality_family->FamilyCode }}">{{ $locality_family->LocalFamily }}</option>
                             @endforeach
                         </select>
                     </div>
