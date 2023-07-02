@@ -62,8 +62,6 @@
 
 								<th class="border-bottom-0">rate_vat</th>
 
-
-
 								<th class="border-bottom-0">Total</th>
 
 								<th class="border-bottom-0">status</th>
@@ -112,9 +110,9 @@
 
 
 
-									<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
+									<!--<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
 										Delete
-									</button>
+									</button>-->
 									<a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.printInvoice', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
 	Print
 </a>

@@ -9,6 +9,9 @@ use App\counters;
 use App\counter_types;
 use App\locations;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
+use App\Http\Controllers\UserController;
+use App\User;
 
 class InvoicesController extends Controller
 {
@@ -72,6 +75,11 @@ class InvoicesController extends Controller
             'Created_by' => Auth::user()->name,
             'CounterReferenceid' => $request->input('Reference')
         ]);
+
+        $user = User::find(Auth::user()->id);
+        //$user =  Auth::user();
+        $invoices = invoices::latest()->first();
+        Notification::send($user, new \App\Notifications\Add_invoice($invoices));
 
         session()->flash('Add', 'Invoice created successfully.');
 
@@ -175,8 +183,33 @@ class InvoicesController extends Controller
     public function printInvoice($idinvoice)
     {
         $invoice = Invoices::findOrFail($idinvoice);
-       
+
         return view('invoices.print_invoice', compact('invoice'));
     }
-    
+    public function MarkAsRead_all(Request $request)
+    {
+
+        $userUnreadNotification = auth()->user()->unreadNotifications;
+
+        if ($userUnreadNotification) {
+            $userUnreadNotification->markAsRead();
+            return back();
+        }
+    }
+
+
+    public function unreadNotifications_count()
+
+    {
+        return auth()->user()->unreadNotifications->count();
+    }
+
+    public function unreadNotifications()
+
+    {
+        foreach (auth()->user()->unreadNotifications as $notification) {
+
+            return $notification->data['title'];
+        }
+    }
 }
