@@ -25,6 +25,7 @@ class CreateInvoicesTable extends Migration
             $table->string('Status', 50);
             $table->integer('value_Status');
             $table->text('note')->nullable();
+            $table->text('pathImage')->nullable();
             $table->string('Created_by');
             $table->integer('CounterReferenceid')->unsigned();
             $table->foreign('CounterReferenceid')->references('CounterReferenceid')->on('counters');

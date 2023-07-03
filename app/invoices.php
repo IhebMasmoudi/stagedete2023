@@ -21,6 +21,7 @@ class invoices extends Model
         'value_Status',
         'note',
         'Created_by',
+        'pathImage',
         'CounterReferenceid'
     ];
     protected $dates = ['deleted_at'];

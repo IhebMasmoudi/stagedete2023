@@ -10,6 +10,7 @@ use App\counter_types;
 use App\locations;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\UserController;
 use App\User;
 
@@ -58,10 +59,13 @@ class InvoicesController extends Controller
     {
 
 
+        $pathImage = Storage::putFile('invoices', $request->file('pathImage'));
         $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->input('invoice_Date'))->format('Y-m-d');
         $dueDate = Carbon::createFromFormat('d-m-Y', $request->input('due_date'))->format('Y-m-d');
 
         invoices::create([
+
+            'pathImage' => $pathImage,
             'invoice_number' => $request->input('invoice_number'),
             'invoice_Date' => $invoiceDate,
             'due_date' => $dueDate,
@@ -72,6 +76,7 @@ class InvoicesController extends Controller
             'Status' => 'Unpaid',
             'value_Status' => '2',
             'note' => $request->input('note'),
+            
             'Created_by' => Auth::user()->name,
             'CounterReferenceid' => $request->input('Reference')
         ]);
@@ -123,11 +128,12 @@ class InvoicesController extends Controller
     {
         try {
             $invoice = invoices::findOrFail($idinvoice);
-
+            $pathImage = Storage::putFile('invoices', $request->file('pathImage'));
             $invoiceDate = Carbon::createFromFormat('d-m-Y', $request->input('invoice_Date'))->format('Y-m-d');
             $dueDate = Carbon::createFromFormat('d-m-Y', $request->input('due_date'))->format('Y-m-d');
 
             $invoice->update([
+                'pathImage' => $pathImage,
                 'invoice_number' => $request->input('invoice_number'),
                 'invoice_Date' => $invoiceDate,
                 'due_date' => $dueDate,

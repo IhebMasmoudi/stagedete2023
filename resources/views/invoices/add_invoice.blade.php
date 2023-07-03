@@ -42,7 +42,7 @@ Add invoices
     <div class="col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('invoices.store') }}" method="post" autocomplete="off">
+                <form action="{{ route('invoices.store') }}" method="post" autocomplete="off" enctype="multipart/form-data">
                     @csrf
                    
                     {{-- 1 --}}
@@ -130,14 +130,20 @@ Add invoices
                     </div>
 
                     {{-- 5 --}}
-                    <div class="row">
-                        <div class="col">
-                            <label for="exampleTextarea">Note</label>
-                            <textarea class="form-control" id="exampleTextarea" name="note" rows="3"></textarea>
-                        </div>
-                    </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="exampleTextarea">Note</label>
+                                <textarea class="form-control" id="exampleTextarea" name="note" rows="3"></textarea>
+                            </div>
+                        </div><br>
 
-                    <br>
+                        <p class="text-danger">*   pdf, jpeg ,.jpg , png </p>
+                        <h5 class="card-title">Attachments</h5>
+
+                        <div class="col-sm-12 col-md-12">
+                            <input type="file" name="pathImage" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png"
+                                data-height="70" />
+                        </div><br>
 
                     <div class="d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Add</button>

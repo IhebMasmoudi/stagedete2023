@@ -144,7 +144,14 @@ Edit invoices
                             <label for="exampleTextarea">Note</label>
                             <textarea class="form-control" value="{{ $invoice->note }}" id="exampleTextarea" name="note" rows="3"></textarea>
                         </div>
-                    </div>
+                        </div><br>
+                        <p class="text-danger">*   pdf, jpeg ,.jpg , png </p>
+                        <h5 class="card-title">Attachments</h5>
+
+                        <div class="col-sm-12 col-md-12">
+                            <input type="file" name="pathImage" class="dropify" accept=".pdf,.jpg, .png, image/jpeg, image/png"
+                                data-height="70" />
+                        </div><br>
     <div class="d-flex justify-content-center">
         <button type="submit" class="btn btn-primary">Edit</button>
     </div>
