@@ -42,7 +42,7 @@ Edit invoices
     <div class="col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
-            <form action="{{ route('invoices.update', ['idinvoice' => $invoice->idinvoice]) }}" method="POST" autocomplete="off">
+            <form action="{{ route('invoices.update', ['idinvoice' => $invoice->idinvoice]) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
     @method('patch')
     @csrf
 

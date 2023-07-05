@@ -41,87 +41,71 @@
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table id="example" class="table key-buttons text-md-nowrap">
-						<thead>
-							<tr>
-								<th class="border-bottom-0">#</th>
+				<table id="example" class="table key-buttons text-md-nowrap">
+  <thead>
+    <tr>
+      <th class="border-bottom-0">#</th>
+      <th class="border-bottom-0">invoice_number</th>
+      <th class="border-bottom-0">invoice_Date</th>
+      <th class="border-bottom-0">due_date</th>
+      <th class="border-bottom-0">Counter Reference</th>
+      <th class="border-bottom-0">Counter type </th>
+      <th class="border-bottom-0">Local Label</th>
+      <th class="border-bottom-0">discount</th>
+      <th class="border-bottom-0">rate_vat</th>
+      <th class="border-bottom-0">Total</th>
+      <th class="border-bottom-0">status</th>
+      <th class="border-bottom-0">note</th>
+      <th class="border-bottom-0">Created_by</th>
+      <th class="border-bottom-0" colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php $i = 0; ?>
+    @foreach ($invoices as $invoice)
+    <?php $i++; ?>
+    <tr>
+      <td>{{ $i }}</td>
+      <td>{{ $invoice->invoice_number }}</td>
+      <td>{{ $invoice->invoice_Date }}</td>
+      <td>{{ $invoice->due_date }}</td>
+      <td>{{ $invoice->counter->CounterReference }}</td>
+      <td>{{ $invoice->counter->counterType->CounterType }}</td>
+      <td>{{ $invoice->counter->locations->LocalLabel }}</td>
+      <td>{{ $invoice->discount }}</td>
+      <td>{{ $invoice->rate_vat }}</td>
+      <td>{{ $invoice->Total }}</td>
+      <td>
+        @if ($invoice->value_Status == 1)
+        <span class="text-success">{{ $invoice->Status }}</span>
+        @elseif($invoice->value_Status == 2)
+        <span class="text-danger">{{ $invoice->Status }}</span>
+        @else
+        <span class="text-warning">{{ $invoice->Status }}</span>
+        @endif
+      </td>
+      <td>{{ $invoice->note }}</td>
+      <td>{{ $invoice->Created_by }}</td>
+      <td>
+        <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.edit', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-success btn-sm edit-button" data-target="#edit_counter">
+          Edit
+        </a>
+      </td>
+      <td>
+        <!--<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
+          Delete
+        </button>-->
+      </td>
+      <td>
+        <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.printInvoice', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+          Print
+        </a>
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
 
-								<th class="border-bottom-0">invoice_number</th>
-
-								<th class="border-bottom-0">invoice_Date</th>
-
-								<th class="border-bottom-0">due_date</th>
-
-								<th class="border-bottom-0">Counter Reference</th>
-
-								<th class="border-bottom-0">Counter type </th>
-
-								<th class="border-bottom-0">Local Label</th>
-
-								<th class="border-bottom-0">discount</th>
-
-								<th class="border-bottom-0">rate_vat</th>
-
-								<th class="border-bottom-0">Total</th>
-
-								<th class="border-bottom-0">status</th>
-
-								<th class="border-bottom-0">note</th>
-
-								<th class="border-bottom-0">Created_by</th>
-								<th class="border-bottom-0"></th>
-								<th class="border-bottom-0"></th>
-
-
-							</tr>
-						</thead>
-						<tbody>
-							<?php $i = 0; ?>
-							@foreach ($invoices as $invoice)
-							<?php $i++; ?>
-							<tr>
-								<td>{{ $i }}</td>
-								<td>{{ $invoice->invoice_number }}</td>
-								<td>{{ $invoice->invoice_Date }}</td>
-								<td>{{ $invoice->due_date }}</td>
-								<td>{{ $invoice->counter->CounterReference }}</td>
-
-								<td>{{ $invoice->counter->counterType->CounterType }}</td>
-								<td>{{ $invoice->counter->locations->LocalLabel }}</td>
-								<td>{{ $invoice->discount }}</td>
-								<td>{{ $invoice->rate_vat }}</td>
-								<td>{{ $invoice->Total }}</td>
-								<td>
-									@if ($invoice->value_Status == 1)
-									<span class="text-success">{{ $invoice->Status }}</span>
-									@elseif($invoice->value_Status == 2)
-									<span class="text-danger">{{ $invoice->Status }}</span>
-									@else
-									<span class="text-warning">{{ $invoice->Status }}</span>
-									@endif
-
-								</td>
-								<td>{{ $invoice->note }}</td>
-								<td>{{ $invoice->Created_by }}</td>
-								<td><a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.edit', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-success btn-sm edit-button" data-target="#edit_counter">
-										Edit
-									</a>
-
-
-
-
-									<!--<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
-										Delete
-									</button>-->
-									<a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.printInvoice', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
-	Print
-</a>
-								</td>
-								<td></td>
-							</tr>
-							@endforeach
-						</tbody>
-					</table>
 				</div>
 			</div>
 		</div>

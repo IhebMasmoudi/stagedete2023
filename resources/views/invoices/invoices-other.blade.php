@@ -33,11 +33,7 @@
 					<h4 class="card-title mg-b-0">invoices Table</h4>
 					<i class="mdi mdi-dots-horizontal text-gray"></i>
 				</div>
-				<div class="d-flex justify-content-between">
-					<a href="invoices/create" class="modal-effect btn btn-sm btn-primary" style="color:white">
-						<i class="fas fa-plus"></i>&nbsp; Add invoices</a>
-
-				</div>
+			
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">

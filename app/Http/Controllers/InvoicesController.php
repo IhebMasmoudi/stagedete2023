@@ -110,6 +110,7 @@ class InvoicesController extends Controller
      */
     public function edit($idinvoice)
     {
+       
         $invoice = invoices::find($idinvoice);
         $counters = counters::all();
         $locations = locations::all();
@@ -125,7 +126,7 @@ class InvoicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $idinvoice)
-    {
+    {   
         try {
             $invoice = invoices::findOrFail($idinvoice);
             $pathImage = Storage::putFile('invoices', $request->file('pathImage'));
