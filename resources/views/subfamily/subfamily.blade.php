@@ -20,7 +20,7 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="my-auto">
         <div class="d-flex">
-            <h4 class="content-title mb-0 my-auto">Settings</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Sub family</span>
+            <h4 class="content-title mb-0 my-auto">Settings</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Local family</span>
         </div>
     </div>
     <div class="d-flex my-xl-auto right-content">
@@ -79,7 +79,7 @@
         <div class="card mg-b-20">
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
-                    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Sub family</a>
+                    <a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Local family</a>
 
                 </div>
 
@@ -90,8 +90,8 @@
                         <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0"> Sub family name</th>
                                 <th class="border-bottom-0"> Local Family</th>
+                                <th class="border-bottom-0"> Sub family name</th>
                                 <th class="border-bottom-0"></th>
 
 
@@ -103,13 +103,13 @@
                             <?php $i++; ?>
                             <tr>
                                 <td>{{ $i }}</td>
+                                <td>{{ $sub_family->LocalFamily }}</td>
                                 <td>{{ $sub_family->SubFamily }}</td>
-                                <td>{{ $sub_family->localityFamily->LocalFamily }}</td>
                                 <td>
                                 <button class="btn btn-outline-success btn-sm" 
                                 data-SubFamily="{{ $sub_family->SubFamily }}"
                                 data-SubFamilyCode="{{ $sub_family->SubFamilyCode }}"
-                               data-LocalFamily="{{ $sub_family->localityFamily->LocalFamily }}"
+                               data-LocalFamily="{{ $sub_family->LocalFamily }}"
                                   data-toggle="modal" data-target="#edit_Product">Edit</button>
 
                                     <button class="btn btn-outline-danger btn-sm" 
@@ -136,19 +136,20 @@
                 <div class="modal-body">
                 <form action="{{ route('subfamily.store') }}" method="post">
                         @csrf
+
+                        <div class="form-group">
+                        <label for="SubFamily">Local Family </label>
+                        <input type="hidden" class="form-control" name="LocalFamily" id="LocalFamily" value="">
+                        <input type="text" class="form-control" name="LocalFamily" id="LocalFamily">
+                    </div>
+                    
+
                     <div class="form-group">
                         <label for="SubFamily">Sub Family Name</label>
                         <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
                         <input type="text" class="form-control" name="SubFamily" id="SubFamily">
                     </div>
-                    <div class="form-group">
-                        <label for="FamilyCode">Local Family</label>
-                        <select name="FamilyCode" id="FamilyCode" class="custom-select" required>
-                            @foreach ($locality_families as $locality_family)
-                            <option value="{{ $locality_family->FamilyCode }}">{{ $locality_family->LocalFamily }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Add</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -177,17 +178,17 @@
                     {{ method_field('patch') }}
                     {{ csrf_field() }}
                     <div class="form-group">
+                        <label for="LocalFamily">Local Family </label>
+                        <input type="hidden" class="form-control" name="LocalFamily" id="LocalFamily" value="">
+                        <input type="text" class="form-control" name="LocalFamily" id="LocalFamily">
+                    </div>
+                    <div class="form-group">
                         <label for="subfamily">Sub Family Name</label>
                         <input type="hidden" class="form-control" name="SubFamilyCode" id="SubFamilyCode" value="">
 
                         <input type="text" class="form-control" name="SubFamily" id="SubFamily">
                     </div>
-                    <label for="LocalFamily">Local Family</label>
-                    <select name="LocalFamily" id="LocalFamily" class="custom-select" required>
-                        @foreach ($locality_families as $locality_family)
-                        <option> {{ $locality_family->LocalFamily }} </option>
-                        @endforeach
-                    </select>
+                  
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -262,7 +263,7 @@
     $('#edit_Product').on('show.bs.modal', function(event) {
     var button = $(event.relatedTarget)
     var SubFamily = button.data('subfamily')
-    var LocalFamily = button.data('localfamily')
+    var LocalFamily = button.data('LocalFamily')
     var SubFamilyCode = button.data('subfamilycode')
     var modal = $(this)
     modal.find('.modal-body #SubFamily').val(SubFamily);

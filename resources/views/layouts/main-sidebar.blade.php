@@ -73,9 +73,9 @@
 						<ul class="slide-menu">
 							<li><a class="slide-item" href="{{ url('/' . $page='districts') }}">District</a></li>
 							
-							<li><a class="slide-item"  href="{{ url('/' . $page='locality_family') }}">Locality Family</a></li>
+							<!---<li><a class="slide-item"  href="{{ url('/' . $page='locality_family') }}">Locality Family</a></li>-->
 							
-							<li><a class="slide-item"  href="{{ url('/' . $page='subfamily') }}">Sub Family</a></li>
+							<li><a class="slide-item"  href="{{ url('/' . $page='subfamily') }}">Local Family</a></li>
 
 							
 							<li><a class="slide-item"  href="{{ url('/' . $page='countertype') }}">Counter Type</a></li>

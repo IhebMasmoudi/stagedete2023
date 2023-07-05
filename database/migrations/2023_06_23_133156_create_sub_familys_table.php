@@ -16,8 +16,9 @@ class CreateSubFamilysTable extends Migration
         Schema::create('sub_families', function (Blueprint $table) {
             $table->increments('SubFamilyCode');
             $table->string('SubFamily');
-            $table->integer('FamilyCode')->unsigned();
-            $table->foreign('FamilyCode')->references('FamilyCode')->on('locality_families');
+            $table->string('LocalFamily');
+            #$table->integer('FamilyCode')->unsigned();
+            #$table->foreign('FamilyCode')->references('FamilyCode')->on('locality_families');
             $table->timestamps();
         });
     }
