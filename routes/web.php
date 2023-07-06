@@ -22,6 +22,7 @@ Auth::routes();
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
 
 Route::resource('invoices', 'InvoicesController');
 

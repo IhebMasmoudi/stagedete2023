@@ -108,7 +108,7 @@ Edit invoices
         <div class="col">
             <label for="inputName" class="control-label">VAT</label>
             <select name="Rate_VAT" id="Rate_VAT" class="form-control" onchange="calculatePrice()">
-                <option value="{{ $invoice->rate_vat }}" selected disabled>{{ $invoice->rate_vat }}</option>
+                <option value="{{ $invoice->rate_vat }}" selected disabled>Choose Vat</option>
                 <option value="5">5%</option>
                 <option value="7">7%</option>
                 <option value="10">10%</option>

@@ -17,8 +17,10 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "2.4",
         "laravelcollective/html": "^6.4",
+        "mcamara/laravel-localization": "^1.8",
         "nesbot/carbon": "^2.67",
-        "spatie/laravel-permission": "3.13"
+        "spatie/laravel-permission": "3.13",
+        "stichoza/google-translate-php": "2.0.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

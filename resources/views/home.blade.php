@@ -175,32 +175,39 @@
 
     <!-- row opened -->
     <div class="row row-sm">
-        <div class="col-md-12 col-lg-12 col-xl-7">
-            <div class="card">
-                <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
-                    <div class="d-flex justify-content-between">
-                        <h4 class="card-title mb-0">  Statistics </h4>
-                        <i class="mdi mdi-dots-horizontal text-gray"></i>
-                    </div>
-
-                </div>
-                <div class="card-body" style="width: 70%">
-                    {!! $chartjs->render() !!}
-
+    <div class="col-md-12 col-lg-12 col-xl-7">
+        <div class="card">
+            <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mb-0">Statistics</h4>
+                    <i class="mdi mdi-dots-horizontal text-gray"></i>
                 </div>
             </div>
-        </div>
-
-
-        <div class="col-lg-12 col-xl-5">
-            <div class="card card-dashboard-map-one">
-                <label class="main-content-label"> Statistics </label>
-                <div class="" style="width: 100%">
-                    {!! $chartjs_2->render() !!}
-                </div>
+            <div class="card-body" style="width: 70%">
+                {!! $chartjs->render() !!}
             </div>
         </div>
     </div>
+    
+    <div class="col-lg-12 col-xl-5">
+        <div class="card card-dashboard-map-one">
+            <label class="main-content-label">Statistics</label>
+            <div class="" style="width: 100%">
+                {!! $chartjs_2->render() !!}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-12 col-xl-5">
+        <div class="card card-dashboard-map-one">
+            <label class="main-content-label">Statistics</label>
+            <div class="" style="width: 100%">
+                {!! $chartjs1->render() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
     <!-- row closed -->
     </div>
     </div>

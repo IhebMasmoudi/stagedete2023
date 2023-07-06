@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\invoices;
 use ConsoleTVs\Charts\Classes\Chartjs\Chart;
+use App\counters;
+use App\locations;
+use App\counter_types;
 class HomeController extends Controller
 {
     /**
@@ -84,6 +87,43 @@ class HomeController extends Controller
             ])
             ->options([]);
     
-        return view('home', compact('chartjs', 'chartjs_2'));
+
+            
+           
+                $locations = locations::pluck('LocalLabel')->toArray();;
+                $counterTypes = counter_types::pluck('CounterType')->toArray();;
+                
+                $datasets = [];
+    foreach ($counterTypes as $counterType) {
+        $data = [];
+        foreach ($locations as $location) {
+            // Calculate the total price for each counter type in each location
+            $totalPrice = Invoices::whereHas('counter', function ($query) use ($counterType, $location) {
+                $query->whereHas('counterType', function ($query) use ($counterType) {
+                    $query->where('CounterType', $counterType);
+                })
+                ->whereHas('locations', function ($query) use ($location) {
+                    $query->where('LocalLabel', $location);
+                });
+            })->sum('Total');
+
+            $data[] = $totalPrice;
+        }
+
+        $datasets[] = [
+            'label' => $counterType,
+            'backgroundColor' => '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT), // Generate random colors
+            'data' => $data,
+        ];
+    }
+
+    $chartjs1 = app()->chartjs
+        ->name('counterConsumptionChart')
+        ->type('bar')
+        ->size(['width' => 350, 'height' => 200])
+        ->labels($locations)
+        ->datasets($datasets)
+        ->options([]);
+                return view('home', compact('chartjs1','chartjs', 'chartjs_2'));
     }
 }    
