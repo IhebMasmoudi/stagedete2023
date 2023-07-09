@@ -172,9 +172,8 @@
         </div>
     </div>
     <!-- row closed -->
-
-    <!-- row opened -->
-    <div class="row row-sm">
+<!-- row opened -->
+<div class="row row-sm">
     <div class="col-md-12 col-lg-12 col-xl-7">
         <div class="card">
             <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
@@ -188,7 +187,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-12 col-xl-5">
         <div class="card card-dashboard-map-one">
             <label class="main-content-label">Statistics</label>
@@ -197,7 +196,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="col-lg-12 col-xl-5">
         <div class="card card-dashboard-map-one">
             <label class="main-content-label">Statistics</label>
@@ -206,13 +205,43 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <h1>Chart Example</h1>
+            <form id="chartForm" action="{{ route('generate') }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <label for="start_date">Start Date:</label>
+                    <input class="form-control fc-datepicker" type="text" name="start_date" id="start_date" placeholder="dd-mm-yyyy" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_date">End Date:</label>
+                    <input class="form-control fc-datepicker" type="text" name="end_date" id="end_date" placeholder="dd-mm-yyyy" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Generate Chart</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+            <canvas id="chartContainer"></canvas>
+        </div>
+    </div>
 </div>
 
-    <!-- row closed -->
-    </div>
-    </div>
-    <!-- Container closed -->
+
+</div>
+</div>
+
+
+<!-- row closed -->
+
+<!-- Container closed -->
 @endsection
+
 @section('js')
     <!--Internal  Chart.bundle js -->
     <script src="{{ URL::asset('assets/plugins/chart.js/Chart.bundle.min.js') }}"></script>
@@ -234,4 +263,39 @@
     <!--Internal  index js -->
     <script src="{{ URL::asset('assets/js/index.js') }}"></script>
     <script src="{{ URL::asset('assets/js/jquery.vmap.sampledata.js') }}"></script>
+
+    <!-- Bootstrap Datepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script>
+        // Initialize datepicker
+        $('.fc-datepicker').datepicker({
+            format: 'dd-mm-yyyy',
+            autoclose: true
+        });
+
+        // AJAX request to generate the chart
+        $('#chartForm').submit(function (e) {
+            e.preventDefault(); // Prevent form submission
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: form.serialize(),
+                success: function (response) {
+                    renderChart(response); // Call the function to render the chart
+                },
+                error: function (xhr, status, error) {
+                    console.log(error); // Handle error if necessary
+                }
+            });
+        });
+
+        // Function to render the chart using Chart.js
+        function renderChart(chartData) {
+            var ctx = document.getElementById('chartContainer').getContext('2d');
+            var chart = new Chart(ctx, chartData);
+        }
+    </script>
 @endsection

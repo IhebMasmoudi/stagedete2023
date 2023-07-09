@@ -8,6 +8,7 @@ use ConsoleTVs\Charts\Classes\Chartjs\Chart;
 use App\counters;
 use App\locations;
 use App\counter_types;
+use Carbon\Carbon;
 class HomeController extends Controller
 {
     /**
@@ -125,51 +126,68 @@ class HomeController extends Controller
                 return view('home', compact('chartjs1','chartjs', 'chartjs_2'));
     }
 
-    function generate(Request $request){
-        // Replace the input() function calls with request() method calls
-        
-        $startDate = Carbon::createFromFormat('d-m-Y', request('start_date'))->format('Y-m-d');
-        $endDate = Carbon::createFromFormat('d-m-Y', request('end_date'))->format('Y-m-d');
-  
-        $counterTypes = counter_types::pluck('CounterType')->toArray();
-        $locations = Locations::pluck('LocalLabel')->toArray();
+    public function generate(Request $request)
+{
+    // Replace the input() function calls with request() method calls
+    $startDate = Carbon::createFromFormat('d-m-Y', $request->input('start_date'))->format('Y-m-d');
+    $endDate = Carbon::createFromFormat('d-m-Y', $request->input('end_date'))->format('Y-m-d');
 
-        $datasets = [];
-        foreach ($counterTypes as $counterType) {
-            $data = [];
-            foreach ($locations as $location) {
-                // Calculate the total price for each counter type in each location
-                $totalPrice = Invoices::whereHas('counter', function ($query) use ($counterType, $location) {
-                    $query->whereHas('counterType', function ($query) use ($counterType) {
-                        $query->where('CounterType', $counterType);
-                    })
-                    ->whereHas('locations', function ($query) use ($location) {
-                        $query->where('LocalLabel', $location);
-                    });
+    $counterTypes = counter_types::pluck('CounterType')->toArray();
+    $locations = Locations::pluck('LocalLabel')->toArray();
+
+    $datasets = [];
+    foreach ($counterTypes as $counterType) {
+        $data = [];
+        for ($i = new Carbon($startDate); $i <= new Carbon($endDate); $i->addMonth()) {
+            $totalPrice = Invoices::whereHas('counter', function ($query) use ($counterType, $locations) {
+                $query->whereHas('counterType', function ($query) use ($counterType) {
+                    $query->where('CounterType', $counterType);
                 })
-                ->whereBetween('invoice_Date', [$startDate, $endDate]) // Filter invoices within the selected date range
-                ->sum('Total');
+                ->whereHas('locations', function ($query) use ($locations) {
+                    $query->where('LocalLabel', $locations);
+                });
+            })
+            ->whereMonth('invoice_Date', $i->month) // Filter invoices by month
+            ->whereYear('invoice_Date', $i->year) // Filter invoices by year
+            ->sum('Total');
 
-                $data[] = $totalPrice;
-            }
-
-            $datasets[] = [
-                'label' => $counterType,
-                'backgroundColor' => '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT), // Generate random colors
-                'data' => $data,
-            ];
+            $data[] = $totalPrice;
         }
 
-        $chartjs4 = app()->chartjs
-            ->name('counterConsumptionChart')
-            ->type('line')
-            ->size(['width' => 600, 'height' => 400])
-            ->labels($locations)
-            ->datasets($datasets)
-            ->options([]);
-
-            return response()->json($chartjs4);
-
+        $datasets[] = [
+            'label' => $counterType,
+            'borderColor' => '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT), // Generate random colors for line borders
+            'backgroundColor' => 'transparent',
+            'data' => $data,
+        ];
     }
-   
+
+    $chartData = [
+        'type' => 'line',
+        'data' => [
+            'labels' => $this->generateMonthLabels($startDate, $endDate),
+            'datasets' => $datasets,
+        ],
+        'options' => [],
+    ];
+
+    return response()->json($chartData);
+}
+
+private function generateMonthLabels($startDate, $endDate)
+{
+    $start = new Carbon($startDate);
+    $end = new Carbon($endDate);
+    $labels = [];
+
+    for ($date = $start; $date <= $end; $date->addMonth()) {
+        $labels[] = $date->format('F Y');
+    }
+
+    return $labels;
+}
+
+    
+    
+    
 }    

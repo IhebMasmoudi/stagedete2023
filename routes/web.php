@@ -31,7 +31,7 @@ Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@
 
 Route::post('populateCounterData', 'InvoicesController@populateCounterData')->name('populateCounterData');
 
-// Define the route for chart generation
+
 Route::post('generate', 'HomeController@generate')->name('generate');
 
 
