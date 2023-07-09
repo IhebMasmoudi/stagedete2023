@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,11 @@ Route::resource('invoices', 'InvoicesController');
 
 Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@edit')->name('invoices.edit');
 
+Route::post('populateCounterData', 'InvoicesController@populateCounterData')->name('populateCounterData');
+
+// Define the route for chart generation
+Route::post('generate', 'HomeController@generate')->name('generate');
+
 
 Route::patch('invoices/edit/{idinvoice}', 'InvoicesController@update')->name('invoices.update');
 
@@ -40,10 +46,6 @@ Route::get('Other','InvoicesController@Other');
 //Route::get('Print_invoice/{idinvoice}', 'InvoicesController@printInvoice');
 
 Route::get('invoices/printInvoice/{idinvoice}', 'InvoicesController@printInvoice')->name('invoices.printInvoice');
-
-
-
-
 
 
 Route::resource('districts', 'DistrictController');

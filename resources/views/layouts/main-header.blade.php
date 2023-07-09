@@ -16,6 +16,12 @@
 							<input class="form-control" placeholder="Search for anything..." type="search"> <button class="btn"><i class="fas fa-search d-none d-md-block"></i></button>
 						</div>
 					</div>
+<div  >
+					<a class="btn btn-primary" href="{{ url('/' . $page='invoices/create') }}"  style="border-radius: 10px">
+    <i class="fas fa-file-invoice"></i>
+    <span style="margin-left: 10px;">Add INVOICE</span>
+  </a>
+  </div>
 					<div class="main-header-right">
 						
 						<div class="nav nav-item  navbar-nav-right ml-auto">

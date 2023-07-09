@@ -219,4 +219,19 @@ class InvoicesController extends Controller
             return $notification->data['title'];
         }
     }
+
+    public function populateCounterData(Request $request)
+{
+  $counterReferenceId = $request->input('counterReferenceId');
+
+  $counter = Counters::findOrFail($counterReferenceId);
+
+  $counterType = $counter->counterType;
+  $localLabel = $counter->locations;
+
+  return response()->json([
+    'counterType' => $counterType,
+    'localLabel' => $localLabel
+  ]);
+}
 }

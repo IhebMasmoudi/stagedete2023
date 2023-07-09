@@ -86,10 +86,7 @@ class HomeController extends Controller
                 ]
             ])
             ->options([]);
-    
 
-            
-           
                 $locations = locations::pluck('LocalLabel')->toArray();;
                 $counterTypes = counter_types::pluck('CounterType')->toArray();;
                 
@@ -124,6 +121,55 @@ class HomeController extends Controller
         ->labels($locations)
         ->datasets($datasets)
         ->options([]);
+
                 return view('home', compact('chartjs1','chartjs', 'chartjs_2'));
     }
+
+    function generate(Request $request){
+        // Replace the input() function calls with request() method calls
+        
+        $startDate = Carbon::createFromFormat('d-m-Y', request('start_date'))->format('Y-m-d');
+        $endDate = Carbon::createFromFormat('d-m-Y', request('end_date'))->format('Y-m-d');
+  
+        $counterTypes = counter_types::pluck('CounterType')->toArray();
+        $locations = Locations::pluck('LocalLabel')->toArray();
+
+        $datasets = [];
+        foreach ($counterTypes as $counterType) {
+            $data = [];
+            foreach ($locations as $location) {
+                // Calculate the total price for each counter type in each location
+                $totalPrice = Invoices::whereHas('counter', function ($query) use ($counterType, $location) {
+                    $query->whereHas('counterType', function ($query) use ($counterType) {
+                        $query->where('CounterType', $counterType);
+                    })
+                    ->whereHas('locations', function ($query) use ($location) {
+                        $query->where('LocalLabel', $location);
+                    });
+                })
+                ->whereBetween('invoice_Date', [$startDate, $endDate]) // Filter invoices within the selected date range
+                ->sum('Total');
+
+                $data[] = $totalPrice;
+            }
+
+            $datasets[] = [
+                'label' => $counterType,
+                'backgroundColor' => '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT), // Generate random colors
+                'data' => $data,
+            ];
+        }
+
+        $chartjs4 = app()->chartjs
+            ->name('counterConsumptionChart')
+            ->type('line')
+            ->size(['width' => 600, 'height' => 400])
+            ->labels($locations)
+            ->datasets($datasets)
+            ->options([]);
+
+            return response()->json($chartjs4);
+
+    }
+   
 }    
