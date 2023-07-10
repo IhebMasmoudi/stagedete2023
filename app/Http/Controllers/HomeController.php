@@ -123,30 +123,34 @@ class HomeController extends Controller
         ->datasets($datasets)
         ->options([]);
 
-                return view('home', compact('chartjs1','chartjs', 'chartjs_2'));
+                return view('home', compact('locations','chartjs1','chartjs', 'chartjs_2'));
     }
 
     public function generate(Request $request)
 {
     // Replace the input() function calls with request() method calls
-    $startDate = Carbon::createFromFormat('d-m-Y', $request->input('start_date'))->format('Y-m-d');
-    $endDate = Carbon::createFromFormat('d-m-Y', $request->input('end_date'))->format('Y-m-d');
+ 
+$startDate = Carbon::createFromFormat('Y-m-d', $request->input('start_date'))->format('Y-m-d');
+$endDate = Carbon::createFromFormat('Y-m-d', $request->input('end_date'))->format('Y-m-d');
 
     $counterTypes = counter_types::pluck('CounterType')->toArray();
-    $locations = Locations::pluck('LocalLabel')->toArray();
+    $location = $request->input('location');
 
     $datasets = [];
     foreach ($counterTypes as $counterType) {
         $data = [];
         for ($i = new Carbon($startDate); $i <= new Carbon($endDate); $i->addMonth()) {
-            $totalPrice = Invoices::whereHas('counter', function ($query) use ($counterType, $locations) {
+            $totalPrice = Invoices::whereHas('counter', function ($query) use ($counterType, $location) {
                 $query->whereHas('counterType', function ($query) use ($counterType) {
                     $query->where('CounterType', $counterType);
                 })
-                ->whereHas('locations', function ($query) use ($locations) {
-                    $query->where('LocalLabel', $locations);
+                ->whereHas('locations', function ($query) use ($location) {
+                    if ($location) {
+                        $query->where('LocalLabel', $location);
+                    }
                 });
             })
+            
             ->whereMonth('invoice_Date', $i->month) // Filter invoices by month
             ->whereYear('invoice_Date', $i->year) // Filter invoices by year
             ->sum('Total');

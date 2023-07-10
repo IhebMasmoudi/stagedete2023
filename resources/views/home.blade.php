@@ -209,29 +209,42 @@
     <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
-            <h1>Chart Example</h1>
-            <form id="chartForm" action="{{ route('generate') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label for="start_date">Start Date:</label>
-                    <input class="form-control fc-datepicker" type="text" name="start_date" id="start_date" placeholder="dd-mm-yyyy" required>
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Chart Per Local and Date </h1>
+                    <form id="chartForm" action="{{ route('generate') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="start_date">Start Date:</label>
+                            <input class="form-control fc-datepicker" type="date" name="start_date" id="start_date" placeholder="yyyy-mm-dd" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="end_date">End Date:</label>
+                            <input class="form-control fc-datepicker" type="date" name="end_date" id="end_date" placeholder="yyyy-mm-dd" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Location:</label>
+                            <select class="form-control" name="location" id="location">
+                                <option value="">All Locations</option>
+                                @foreach($locations as $location)
+                                    <option value="{{ $location }}">{{ $location }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generate Chart</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="end_date">End Date:</label>
-                    <input class="form-control fc-datepicker" type="text" name="end_date" id="end_date" placeholder="dd-mm-yyyy" required>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <canvas id="chartContainer"></canvas>
+                        </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Generate Chart</button>
-            </form>
-        </div>
-    </div>
-    <div class="col-lg-12">
-    <div class="card">
-        <div class="card-body">
-            <canvas id="chartContainer"></canvas>
+            </div>
         </div>
     </div>
 </div>
-
 
 </div>
 </div>
@@ -265,13 +278,14 @@
     <script src="{{ URL::asset('assets/js/jquery.vmap.sampledata.js') }}"></script>
 
     <!-- Bootstrap Datepicker -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script>
         // Initialize datepicker
-        $('.fc-datepicker').datepicker({
-            format: 'dd-mm-yyyy',
-            autoclose: true
-        });
+        $(document).ready(function() {
+    $('.fc-datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+});
 
         // AJAX request to generate the chart
         $('#chartForm').submit(function (e) {
