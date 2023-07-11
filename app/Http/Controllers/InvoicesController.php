@@ -234,4 +234,14 @@ class InvoicesController extends Controller
     'localLabel' => $localLabel
   ]);
 }
+public function getCounterInfo(Request $request)
+{
+  $counterReference = $request->input('counterReferenceId');
+
+  $counter = Counters::findOrFail($counterReference);
+
+  return response()->json($counter);
+}
+
+
 }

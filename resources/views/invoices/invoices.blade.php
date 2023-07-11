@@ -65,45 +65,68 @@
     @foreach ($invoices as $invoice)
     <?php $i++; ?>
     <tr>
-      <td>{{ $i }}</td>
-      <td>{{ $invoice->invoice_number }}</td>
-      <td>{{ $invoice->invoice_Date }}</td>
-      <td>{{ $invoice->due_date }}</td>
-      <td>{{ $invoice->counter->CounterReference }}</td>
-      <td>{{ $invoice->counter->counterType->CounterType }}</td>
-      <td>{{ $invoice->counter->locations->LocalLabel }}</td>
-      <td>{{ $invoice->discount }}</td>
-      <td>{{ $invoice->rate_vat }}</td>
-      <td>{{ $invoice->Total }}</td>
-      <td>
-        @if ($invoice->value_Status == 1)
-        <span class="text-success">{{ $invoice->Status }}</span>
-        @elseif($invoice->value_Status == 2)
-        <span class="text-danger">{{ $invoice->Status }}</span>
-        @else
-        <span class="text-warning">{{ $invoice->Status }}</span>
-        @endif
-      </td>
-      <td>{{ $invoice->note }}</td>
-      <td>{{ $invoice->Created_by }}</td>
-      <td>
-        <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.edit', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-success btn-sm edit-button" data-target="#edit_counter">
-          Edit
-        </a>
-      </td>
-      <td>
-        <!--<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
+        <td>{{ $i }}</td>
+        <td>{{ $invoice->invoice_number }}</td>
+        <td>{{ $invoice->invoice_Date }}</td>
+        <td>{{ $invoice->due_date }}</td>
+        <td>
+            <button class="open-modal" data-counter-id="{{ $invoice->counter->CounterReference }}">{{ $invoice->counter->CounterReference }}</button>
+        </td>
+        <td>{{ $invoice->counter->counterType->CounterType }}</td>
+        <td>{{ $invoice->counter->locations->LocalLabel }}</td>
+        <td>{{ $invoice->discount }}</td>
+        <td>{{ $invoice->rate_vat }}</td>
+        <td>{{ $invoice->Total }}</td>
+        <td>
+            @if ($invoice->value_Status == 1)
+            <span class="text-success">{{ $invoice->Status }}</span>
+            @elseif($invoice->value_Status == 2)
+            <span class="text-danger">{{ $invoice->Status }}</span>
+            @else
+            <span class="text-warning">{{ $invoice->Status }}</span>
+            @endif
+        </td>
+        <td>{{ $invoice->note }}</td>
+        <td>{{ $invoice->Created_by }}</td>
+        <td>
+            <button type="button" class="btn btn-default btn-sm open-image-modal" data-toggle="modal" data-target="#imageModal{{ $i }}">Open Image</button>
+        </td>
+        <td>
+            <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.edit', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-success btn-sm edit-button" data-target="#edit_counter">
+                Edit
+            </a>
+        </td>
+        <td>
+            <!--<button data-idinvoice="{{ $invoice->idinvoice }}" class="btn btn-outline-danger btn-sm delete-button" data-toggle="modal" data-target="#modaldemo9">
           Delete
         </button>-->
-      </td>
-      <td>
-        <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.printInvoice', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
-          Print
-        </a>
-      </td>
+        </td>
+        <td>
+            <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.printInvoice', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+                Print
+            </a>
+        </td>
     </tr>
+    <!-- Image Modal -->
+    <div class="modal fade" id="imageModal{{ $i }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel{{ $i }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel{{ $i }}">Image</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{{ asset('storage/app'). '/' . $invoice->pathImage }}" alt="test" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
     @endforeach
-  </tbody>
+</tbody>
+
+
 </table>
 
 				</div>
@@ -115,6 +138,28 @@
 
 <!-- row closed -->
 </div>
+
+
+<div class="modal fade" id="counter-modal" tabindex="-1" role="dialog" aria-labelledby="counter-modal-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="counter-modal-label">Counter Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Counter Reference: <span id="modal-counter-reference"></span></p>
+        <!-- Add more counter information fields as needed -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Container closed -->
 </div>
 <!-- main-content closed -->
@@ -140,4 +185,32 @@
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+
+<script>
+$(document).ready(function() {
+  $('.open-modal').on('click', function() {
+    var counterId = $(this).data('counter-id');
+    $.ajax({
+      url: '{{ route('getCounterInfo') }}',
+      type: 'GET',
+      data: { counterReferenceId: counterId },
+      success: function(response) {
+        // Populate the pop-up modal with the counter information
+        // You can access the counter properties from the 'response' variable
+        // and update the contents of the modal accordingly
+        // For example:
+        $('#modal-counter-reference').text(response.CounterReference);
+        // Show the pop-up modal
+        $('#counter-modal').modal('show');
+      },
+      error: function(xhr) {
+        // Handle any errors that occur during the AJAX request
+        console.log(xhr.responseText);
+      }
+    });
+  });
+});
+</script>
+
+
 @endsection
