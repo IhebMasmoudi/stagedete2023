@@ -22,23 +22,60 @@
 @endsection
 @section('content')
 <!-- row -->
+
+<div class="card  mg-b-20">
+  <div class="card-body">
+    <h5 class="card-title " >Invoices Table</h5>
+    <h6 class="card-subtitle mb-2 text-muted">: SORT BY </h6>
+    <i class="fa fa-sort" aria-hidden="true"></i>
+
+    <a  href="{{ route('invoices.sort', ['order' => 'asc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label ASC</a>
+    <i class="fa fa-sort" aria-hidden="true"></i>
+    <a href="{{ route('invoices.sort', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
+
+  </div>
+</div>
+
 <div class="row">
 
+  <div class="col-xl-12">
+   <!-- 
+ <div class="card mg-b-20">
+      <div class="card-header pb-0">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex align-items-center">
+            <div>
+              <label for="sort" class="text-left" style="margin-right: 10px;">Sort by:</label>
+            </div>
+            <div>
+              <a href="{{ route('invoices.sort', ['order' => 'asc', 'column' => 'LocalLabel']) }}">
+                Local Label ASC
+                <i class="fa fa-sort" aria-hidden="true"></i>
+              </a>
+              <a href="{{ route('invoices.sort', ['order' => 'desc', 'column' => 'LocalLabel']) }}">
+                Local Label DESC
+                <i class="fa fa-sort" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div>
+            <h4 class="card-title mg-b-0">invoices Table</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+   -->
+  </div>
 
-	<!--div-->
-	<div class="col-xl-12">
-		<div class="card mg-b-20">
-			<div class="card-header pb-0">
-				<div class="d-flex justify-content-between">
-					<h4 class="card-title mg-b-0">invoices Table</h4>
-					<i class="mdi mdi-dots-horizontal text-gray"></i>
-				</div>
-				<div class="d-flex justify-content-between">
-					<a href="invoices/create" class="modal-effect btn btn-sm btn-primary" style="color:white">
-						<i class="fas fa-plus"></i>&nbsp; Add invoices</a>
+  
 
-				</div>
-			</div>
+      <!-- Reste du contenu de la carte -->
+    </div>
+
+		
+		</div>
+		<!-- Rest of the card content -->
+	
 			<div class="card-body">
 				<div class="table-responsive">
 				<table id="example" class="table key-buttons text-md-nowrap">
@@ -62,7 +99,7 @@
   </thead>
   <tbody>
     <?php $i = 0; ?>
-    @foreach ($invoices as $invoice)
+    @foreach ($invoices as $invoice )
     <?php $i++; ?>
     <tr>
         <td>{{ $i }}</td>
@@ -72,6 +109,7 @@
         <td>
             <button class="open-modal" data-counter-id="{{ $invoice->counter->CounterReference }}">{{ $invoice->counter->CounterReference }}</button>
         </td>
+        
         <td>{{ $invoice->counter->counterType->CounterType }}</td>
         <td>{{ $invoice->counter->locations->LocalLabel }}</td>
         <td>{{ $invoice->discount }}</td>
@@ -210,6 +248,12 @@ $(document).ready(function() {
     });
   });
 });
+</script>
+
+<script>
+  function sortInvoices(column, order) {
+      window.location.href = '{{ route("invoices.index") }}?sort=' + column + '&order=' + order;
+  }
 </script>
 
 

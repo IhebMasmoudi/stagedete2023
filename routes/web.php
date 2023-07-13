@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -26,6 +27,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
 
 Route::resource('invoices', 'InvoicesController');
+Route::get('/invoices/{order?}', 'InvoicesController@index')->name('invoices.index');
+Route::get('/invoices/sort/{order?}/{column?}', 'InvoicesController@sort')->name('invoices.sort');
+
 
 Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@edit')->name('invoices.edit');
 
@@ -39,11 +43,11 @@ Route::post('generate', 'HomeController@generate')->name('generate');
 
 Route::patch('invoices/edit/{idinvoice}', 'InvoicesController@update')->name('invoices.update');
 
-Route::get('Invoice_Paid','InvoicesController@Invoice_Paid');
+Route::get('Invoice_Paid', 'InvoicesController@Invoice_Paid');
 
-Route::get('Invoice_UnPaid','InvoicesController@Invoice_UnPaid');
+Route::get('Invoice_UnPaid', 'InvoicesController@Invoice_UnPaid');
 
-Route::get('Other','InvoicesController@Other');
+Route::get('Other', 'InvoicesController@Other');
 
 //Route::get('Print_invoice/{idinvoice}', 'InvoicesController@printInvoice');
 
@@ -68,15 +72,14 @@ Route::resource('counter', 'CounterController');
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-   
-Route::group(['middleware' => ['auth']], function() {
-    Route::resource('roles','RoleController');
-    Route::resource('users','UserController');
-   
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::resource('roles', 'RoleController');
+    Route::resource('users', 'UserController');
 });
 
 
-Route::get('MarkAsRead_all','InvoicesController@MarkAsRead_all')->name('MarkAsRead_all');
+Route::get('MarkAsRead_all', 'InvoicesController@MarkAsRead_all')->name('MarkAsRead_all');
 
 Route::get('unreadNotifications_count', 'InvoicesController@unreadNotifications_count')->name('unreadNotifications_count');
 

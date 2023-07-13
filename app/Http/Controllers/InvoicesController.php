@@ -21,14 +21,83 @@ class InvoicesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    /* public function index()
     {
         $invoices = invoices::all();
         $counters = counters::all();
         $locations = locations::all();
         $counter_types = counter_types::all();
         return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }*/
+
+    /*public function sort($order = 'asc', $column = 'invoice_number')
+    {
+        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
+            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+            ->orderBy('locations.LocalLabel', $order)
+            // ->orderBy($column, $order)
+            ->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }*/
+
+    public function index1($order = null, $column = 'invoice_number')
+    {
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
+            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+            ->orderBy($column, $orderBy)
+            ->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
     }
+
+
+    public function index(Request $request)
+    {
+        $order = $request->input('order', 'asc');
+        $column = $request->input('column', 'invoice_number');
+
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
+            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+            ->orderBy($column, $orderBy)
+            ->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }
+
+    public function sort($order = 'asc', $column = 'invoice_number')
+    {
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
+            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+            ->orderBy($column, $orderBy)
+            ->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -76,7 +145,7 @@ class InvoicesController extends Controller
             'Status' => 'Unpaid',
             'value_Status' => '2',
             'note' => $request->input('note'),
-            
+
             'Created_by' => Auth::user()->name,
             'CounterReferenceid' => $request->input('Reference')
         ]);
@@ -110,7 +179,7 @@ class InvoicesController extends Controller
      */
     public function edit($idinvoice)
     {
-       
+
         $invoice = invoices::find($idinvoice);
         $counters = counters::all();
         $locations = locations::all();
@@ -126,7 +195,7 @@ class InvoicesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $idinvoice)
-    {   
+    {
         try {
             $invoice = invoices::findOrFail($idinvoice);
             $pathImage = Storage::putFile('invoices', $request->file('pathImage'));
@@ -221,27 +290,25 @@ class InvoicesController extends Controller
     }
 
     public function populateCounterData(Request $request)
-{
-  $counterReferenceId = $request->input('counterReferenceId');
+    {
+        $counterReferenceId = $request->input('counterReferenceId');
 
-  $counter = Counters::findOrFail($counterReferenceId);
+        $counter = Counters::findOrFail($counterReferenceId);
 
-  $counterType = $counter->counterType;
-  $localLabel = $counter->locations;
+        $counterType = $counter->counterType;
+        $localLabel = $counter->locations;
 
-  return response()->json([
-    'counterType' => $counterType,
-    'localLabel' => $localLabel
-  ]);
-}
-public function getCounterInfo(Request $request)
-{
-  $counterReference = $request->input('counterReferenceId');
+        return response()->json([
+            'counterType' => $counterType,
+            'localLabel' => $localLabel
+        ]);
+    }
+    public function getCounterInfo(Request $request)
+    {
+        $counterReference = $request->input('counterReferenceId');
 
-  $counter = Counters::findOrFail($counterReference);
+        $counter = Counters::findOrFail($counterReference);
 
-  return response()->json($counter);
-}
-
-
+        return response()->json($counter);
+    }
 }
