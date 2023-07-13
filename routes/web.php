@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,8 @@ Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@
 Route::resource('invoices', 'InvoicesController');
 Route::get('/invoices/{order?}', 'InvoicesController@index')->name('invoices.index');
 Route::get('/invoices/sort/{order?}/{column?}', 'InvoicesController@sort')->name('invoices.sort');
+
+Route::get('/invoices/sortDueDate/{order?}/{column?}', 'InvoicesController@sortDueDate')->name('invoices.sortDueDate');
 
 
 Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@edit')->name('invoices.edit');

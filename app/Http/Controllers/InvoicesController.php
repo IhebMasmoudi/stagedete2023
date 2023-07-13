@@ -64,16 +64,6 @@ class InvoicesController extends Controller
 
     public function index(Request $request)
     {
-        $order = $request->input('order', 'asc');
-        $column = $request->input('column', 'invoice_number');
-
-        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
-
-        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
-            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
-            ->orderBy($column, $orderBy)
-            ->get();
-
         $counters = counters::all();
         $locations = locations::all();
         $counter_types = counter_types::all();
@@ -97,6 +87,19 @@ class InvoicesController extends Controller
         return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
     }
 
+
+    public function sortDueDate($order = 'asc', $column = 'due_date')
+{
+    $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+    $invoices = invoices::orderBy($column, $orderBy)->get();
+
+    $counters = counters::all();
+    $locations = locations::all();
+    $counter_types = counter_types::all();
+
+    return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
+}
 
 
     /**

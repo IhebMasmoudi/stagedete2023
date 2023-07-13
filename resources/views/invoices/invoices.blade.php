@@ -33,6 +33,10 @@
     <i class="fa fa-sort" aria-hidden="true"></i>
     <a href="{{ route('invoices.sort', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
 
+    <a  href="{{ route('invoices.sortDueDate', ['order' => 'asc', 'column' => 'due_date']) }}" class="card-link"> Date ASC</a>
+    <i class="fa fa-sort" aria-hidden="true"></i>
+    <a href="{{ route('invoices.sortDueDate', ['order' => 'desc', 'column' => 'due_date']) }}" class="card-link"> Date DESC</a>
+
   </div>
 </div>
 
