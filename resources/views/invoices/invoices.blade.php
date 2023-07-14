@@ -111,9 +111,10 @@
         <td>{{ $invoice->invoice_Date }}</td>
         <td>{{ $invoice->due_date }}</td>
         <td>
-            <button class="open-modal" data-counter-id="{{ $invoice->counter->CounterReference }}">{{ $invoice->counter->CounterReference }}</button>
+            <button class="open-modal" data-counter-id="{{ $invoice->counter->CounterReferenceid}}">{{ $invoice->counter->CounterReference }}</button>
         </td>
-        
+      
+      
         <td>{{ $invoice->counter->counterType->CounterType }}</td>
         <td>{{ $invoice->counter->locations->LocalLabel }}</td>
         <td>{{ $invoice->discount }}</td>
@@ -193,6 +194,7 @@
       </div>
       <div class="modal-body">
         <p>Counter Reference: <span id="modal-counter-reference"></span></p>
+
         <!-- Add more counter information fields as needed -->
       </div>
       <div class="modal-footer">
@@ -227,20 +229,37 @@
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
-
 <script>
 $(document).ready(function() {
   $('.open-modal').on('click', function() {
     var counterId = $(this).data('counter-id');
     $.ajax({
-      url: '{{ route('getCounterInfo') }}',
+      url: '/getCounterInfo/' + counterId,
+      type: 'GET',
+      success: function(response) {
+        $('#modal-counter-reference').text(response.CounterReference);
+       // $('#modal-counter-type').text(response.CounterType.CounterType);
+        $('#counter-modal').modal('show');
+      },
+      error: function(xhr) {
+        console.log(xhr.responseText);
+      }
+    });
+  });
+});
+
+
+
+
+/*$(document).ready(function() {
+  $('.open-modal').on('click', function() {
+    var counterId = $(this).data('counter-id');
+    $.ajax({
+      url: '/getCounterInfo', // Mettez le chemin d'accès complet si nécessaire, par exemple, '/votre-application/getCounterInfo'
       type: 'GET',
       data: { counterReferenceId: counterId },
       success: function(response) {
         // Populate the pop-up modal with the counter information
-        // You can access the counter properties from the 'response' variable
-        // and update the contents of the modal accordingly
-        // For example:
         $('#modal-counter-reference').text(response.CounterReference);
         // Show the pop-up modal
         $('#counter-modal').modal('show');
@@ -251,14 +270,10 @@ $(document).ready(function() {
       }
     });
   });
-});
+});*/
+
 </script>
 
-<script>
-  function sortInvoices(column, order) {
-      window.location.href = '{{ route("invoices.index") }}?sort=' + column + '&order=' + order;
-  }
-</script>
 
 
 @endsection

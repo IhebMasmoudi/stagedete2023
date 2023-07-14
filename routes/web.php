@@ -38,8 +38,9 @@ Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@
 
 Route::post('populateCounterData', 'InvoicesController@populateCounterData')->name('populateCounterData');
 
-Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
+//Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 
+Route::get('/getCounterInfo/{counterReferenceId}', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 
 Route::post('generate', 'HomeController@generate')->name('generate');
 

@@ -64,6 +64,7 @@ class InvoicesController extends Controller
 
     public function index(Request $request)
     {
+        $invoices = invoices::all();
         $counters = counters::all();
         $locations = locations::all();
         $counter_types = counter_types::all();
@@ -89,17 +90,17 @@ class InvoicesController extends Controller
 
 
     public function sortDueDate($order = 'asc', $column = 'due_date')
-{
-    $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+    {
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
 
-    $invoices = invoices::orderBy($column, $orderBy)->get();
+        $invoices = invoices::orderBy($column, $orderBy)->get();
 
-    $counters = counters::all();
-    $locations = locations::all();
-    $counter_types = counter_types::all();
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
 
-    return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
-}
+        return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }
 
 
     /**
@@ -306,7 +307,7 @@ class InvoicesController extends Controller
             'localLabel' => $localLabel
         ]);
     }
-    public function getCounterInfo(Request $request)
+    public function getCounterInfoI(Request $request)
     {
         $counterReference = $request->input('counterReferenceId');
 
@@ -314,4 +315,23 @@ class InvoicesController extends Controller
 
         return response()->json($counter);
     }
+
+    public function getCounterInfo($CounterReferenceid)
+    {
+        // $counter = Counters::with('counterType')->where('CounterReferenceid', $CounterReferenceid)->first();
+
+        $counter = Counters::findOrFail($CounterReferenceid);
+
+        return response()->json($counter);
+    }
+
+
+    /* public function getCounterInfo(Request $request)
+    {
+        $counterReferenceid = $request->input('counterReferenceid');
+
+        $counter = Counters::with('CounterTypeCode')->where('CounterReferenceid', $counterReferenceid)->first();
+
+        return response()->json($counter);
+    }*/
 }
