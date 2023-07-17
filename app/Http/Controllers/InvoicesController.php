@@ -236,7 +236,8 @@ class InvoicesController extends Controller
 }
 public function getCounterInfo(Request $request)
 {
-  $counterReference = $request->input('counterReferenceId');
+  $counterReference
+   = $request->input('counterReferenceId');
 
   $counter = Counters::findOrFail($counterReference);
 
