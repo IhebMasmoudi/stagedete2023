@@ -30,8 +30,21 @@
 		<div class="card mg-b-20">
 			<div class="card-header pb-0">
 				<div class="d-flex justify-content-between">
-					<h4 class="card-title mg-b-0">invoices Table</h4>
 					<i class="mdi mdi-dots-horizontal text-gray"></i>
+					
+					<h4 class="card-title mg-b-0">invoices Table</h4>
+					
+					<!--<h6 class="card-subtitle mb-2 text-muted">: SORT BY </h6>
+					<i class="fa fa-sort" aria-hidden="true"></i>
+				
+					 <a  href="{{ route('invoices.sort', ['order' => 'asc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label ASC</a>
+					<i class="fa fa-sort" aria-hidden="true"></i>
+					<a href="{{ route('invoices.sort', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
+				
+					<a  href="{{ route('invoices.sortDueDate', ['order' => 'asc', 'column' => 'due_date']) }}" class="card-link"> Date ASC</a>
+					<i class="fa fa-sort" aria-hidden="true"></i>
+					<a href="{{ route('invoices.sortDueDate', ['order' => 'desc', 'column' => 'due_date']) }}" class="card-link"> Date DESC</a>
+					-->
 				</div>
 				
 			</div>

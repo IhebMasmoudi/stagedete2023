@@ -70,15 +70,8 @@
     </div>
    -->
   </div>
-
-  
-
-      <!-- Reste du contenu de la carte -->
-    </div>
-
-		
+    </div>		
 		</div>
-		<!-- Rest of the card content -->
 	
 			<div class="card-body">
 				<div class="table-responsive">
@@ -178,10 +171,7 @@
 	</div>
 	<!--/div-->
 </div>
-
-<!-- row closed -->
 </div>
-
 
 <div class="modal fade" id="counter-modal" tabindex="-1" role="dialog" aria-labelledby="counter-modal-label" aria-hidden="true">
   <div class="modal-dialog" role="document">
