@@ -234,15 +234,25 @@ class InvoicesController extends Controller
     'localLabel' => $localLabel
   ]);
 }
+
+
 public function getCounterInfo(Request $request)
 {
-  $counterReference
-   = $request->input('counterReferenceId');
+    $CounterReferenceid = $request->input('CounterReferenceid');
+    $counter = Counters::findOrFail($CounterReferenceid);
 
-  $counter = Counters::findOrFail($counterReference);
+    // Assuming 'counterType' and 'locations' are relations defined in your Counters model
+    $counterType = $counter->counterType->CounterType;
+    $localLabel = $counter->locations->LocalLabel;
 
-  return response()->json($counter);
+    return response()->json([
+        'CounterReference' => $counter->CounterReference,
+        'counterType' => $counterType,
+        'LocalLabel' => $localLabel,
+        // Add more counter information fields here as needed
+    ]);
 }
+
 
 
 }
