@@ -34,17 +34,17 @@
 					
 					<h4 class="card-title mg-b-0">invoices Table</h4>
 					
-					<!--<h6 class="card-subtitle mb-2 text-muted">: SORT BY </h6>
+					<h6 class="card-subtitle mb-2 text-muted">: SORT BY </h6>
 					<i class="fa fa-sort" aria-hidden="true"></i>
 				
-					 <a  href="{{ route('invoices.sort', ['order' => 'asc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label ASC</a>
+					 <a  href="{{ route('invoices.sortUnpaid', ['order' => 'asc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label ASC</a>
 					<i class="fa fa-sort" aria-hidden="true"></i>
-					<a href="{{ route('invoices.sort', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
+					<a href="{{ route('invoices.sortUnpaid', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
 				
-					<a  href="{{ route('invoices.sortDueDate', ['order' => 'asc', 'column' => 'due_date']) }}" class="card-link"> Date ASC</a>
+					<a  href="{{ route('invoices.sortUnpaidDueDate', ['order' => 'asc', 'column' => 'due_date']) }}" class="card-link"> Date ASC</a>
 					<i class="fa fa-sort" aria-hidden="true"></i>
-					<a href="{{ route('invoices.sortDueDate', ['order' => 'desc', 'column' => 'due_date']) }}" class="card-link"> Date DESC</a>
-					-->
+					<a href="{{ route('invoices.sortUnpaidDueDate', ['order' => 'desc', 'column' => 'due_date']) }}" class="card-link"> Date DESC</a>
+					
 				</div>
 				
 			</div>

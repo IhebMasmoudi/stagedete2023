@@ -32,6 +32,17 @@
 				<div class="d-flex justify-content-between">
 					<h4 class="card-title mg-b-0">invoices Table</h4>
 					<i class="mdi mdi-dots-horizontal text-gray"></i>
+					<h6 class="card-subtitle mb-2 text-muted">: SORT BY </h6>
+					<i class="fa fa-sort" aria-hidden="true"></i>
+				
+					 <a  href="{{ route('invoices.sortPaid', ['order' => 'asc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label ASC</a>
+					<i class="fa fa-sort" aria-hidden="true"></i>
+					<a href="{{ route('invoices.sortPaid', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
+				
+					<a  href="{{ route('invoices.sortUnpaidDueDate', ['order' => 'asc', 'column' => 'due_date']) }}" class="card-link"> Date ASC</a>
+					<i class="fa fa-sort" aria-hidden="true"></i>
+					<a href="{{ route('invoices.sortUnpaidDueDate', ['order' => 'desc', 'column' => 'due_date']) }}" class="card-link"> Date DESC</a>
+					
 				</div>
 				
 			</div>

@@ -33,14 +33,22 @@ Route::get('/invoices/sort/{order?}/{column?}', 'InvoicesController@sort')->name
 
 Route::get('/invoices/sortDueDate/{order?}/{column?}', 'InvoicesController@sortDueDate')->name('invoices.sortDueDate');
 
+Route::get('/invoices/sortUnpaid/{order?}/{column?}', 'InvoicesController@sortUnpaid')->name('invoices.sortUnpaid');
+
+Route::get('/invoices/sortUnpaidDueDate/{order?}/{column?}', 'InvoicesController@sortUnpaidDueDate')->name('invoices.sortUnpaidDueDate');
+
+Route::get('/invoices/sortPaid/{order?}/{column?}', 'InvoicesController@sortPaid')->name('invoices.sortPaid');
 
 Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@edit')->name('invoices.edit');
 
 Route::post('populateCounterData', 'InvoicesController@populateCounterData')->name('populateCounterData');
 
 //Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
+Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 
-Route::get('/getCounterInfo/{counterReferenceId}', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
+// Add this route to handle the local statistics view
+
+//Route::get('/getCounterInfo/{counterReferenceId}', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 
 Route::post('generate', 'HomeController@generate')->name('generate');
 

@@ -72,7 +72,7 @@ class InvoicesController extends Controller
         return view('invoices.invoices', compact('invoices', 'counters', 'locations', 'counter_types'));
     }
 
-    public function sort($order = 'asc', $column = 'invoice_number')
+    public function sort($order = 'asc', $column = 'LocalCode')
     {
         $orderBy = ($order === 'desc') ? 'desc' : 'asc';
 
@@ -315,17 +315,68 @@ class InvoicesController extends Controller
 
         return response()->json($counter);
     }
-
-    public function getCounterInfo($CounterReferenceid)
+    public function getCounterInfo(Request $request)
     {
-        // $counter = Counters::with('counterType')->where('CounterReferenceid', $CounterReferenceid)->first();
-
+        $CounterReferenceid = $request->input('CounterReferenceid');
         $counter = Counters::findOrFail($CounterReferenceid);
 
-        return response()->json($counter);
+        // Assuming 'counterType' and 'locations' are relations defined in your Counters model
+        $counterType = $counter->counterType->CounterType;
+        $localLabel = $counter->locations->LocalLabel;
+
+        return response()->json([
+            'CounterReference' => $counter->CounterReference,
+            'counterType' => $counterType,
+            'LocalLabel' => $localLabel,
+            // Add more counter information fields here as needed
+        ]);
+    }
+
+    public function sortUnpaid($order = 'asc', $column = 'LocalCode')
+    {
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
+            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+            ->orderBy($column, $orderBy)
+            ->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices-unpaid', compact('invoices', 'counters', 'locations', 'counter_types'));
     }
 
 
+    public function sortUnpaidDueDate($order = 'asc', $column = 'due_date')
+    {
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+        $invoices = invoices::orderBy($column, $orderBy)->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices-unpaid', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }
+
+    public function sortPaid($order = 'asc', $column = 'LocalCode')
+    {
+        $orderBy = ($order === 'desc') ? 'desc' : 'asc';
+
+        $invoices = invoices::join('counters', 'invoices.CounterReferenceid', '=', 'counters.CounterReferenceid')
+            ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+            ->orderBy($column, $orderBy)
+            ->get();
+
+        $counters = counters::all();
+        $locations = locations::all();
+        $counter_types = counter_types::all();
+
+        return view('invoices.invoices-paid', compact('invoices', 'counters', 'locations', 'counter_types'));
+    }
     /* public function getCounterInfo(Request $request)
     {
         $counterReferenceid = $request->input('counterReferenceid');
