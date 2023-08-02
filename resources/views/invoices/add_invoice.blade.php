@@ -122,7 +122,10 @@ Add invoices
                     <div class="row">
                         <div class="col">
                             <label for="inputName" class="control-label">Price</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">TND</span>
                             <input type="text" class="form-control" id="Value_VAT" name="Value_VAT" oninput="calculatePrice()">
+                        </div>
                         </div>
                         <div class="col">
                             <label for="inputName" class="control-label">Total</label>
