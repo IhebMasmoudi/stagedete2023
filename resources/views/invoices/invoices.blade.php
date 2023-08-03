@@ -36,17 +36,6 @@
         <div class="d-flex justify-content-between">
           <a href="{{ route('invoices.create') }}" class="modal-effect btn btn-sm btn-primary" style="color:white">
             <i class="fas fa-plus"></i>&nbsp; Add invoices</a>
-            <h6 class="card-subtitle mb-2 text-muted">: SORT BY </h6>
-            <i class="fa fa-sort" aria-hidden="true"></i>
-        
-            <a  href="{{ route('invoices.sort', ['order' => 'asc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label ASC</a>
-            <i class="fa fa-sort" aria-hidden="true"></i>
-            <a href="{{ route('invoices.sort', ['order' => 'desc', 'column' => 'LocalLabel']) }}" class="card-link"> Local Label DESC</a>
-        
-            <a  href="{{ route('invoices.sortDueDate', ['order' => 'asc', 'column' => 'due_date']) }}" class="card-link"> Date ASC</a>
-            <i class="fa fa-sort" aria-hidden="true"></i>
-            <a href="{{ route('invoices.sortDueDate', ['order' => 'desc', 'column' => 'due_date']) }}" class="card-link"> Date DESC</a>
-        
         </div>
       </div>
       <div class="card-body">
@@ -85,14 +74,7 @@
 </td>
 
                 <td>{{ $invoice->counter->counterType->CounterType }}</td>
-                <td>
-                  
-                  
-                      {{ $invoice->counter->locations->LocalLabel }}
-                 
-              </td>
-
-             
+                <td>{{ $invoice->counter->locations->LocalLabel }}</td>
                 <td>{{ $invoice->discount }}</td>
                 <td>{{ $invoice->rate_vat }}</td>
                 <td>{{ $invoice->Total }}</td>

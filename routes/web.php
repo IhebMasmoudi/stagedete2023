@@ -43,7 +43,6 @@ Route::match(['get', 'patch'], 'invoices/edit/{idinvoice}', 'InvoicesController@
 
 Route::post('populateCounterData', 'InvoicesController@populateCounterData')->name('populateCounterData');
 
-//Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 
 // Add this route to handle the local statistics view
