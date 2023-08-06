@@ -18,6 +18,7 @@ Add invoices
 @section('page-header')
 <!-- breadcrumb -->
 <div class="breadcrumb-header justify-content-between">
+<meta name="csrf-token" content="{{ csrf_token() }}">
     <div class="my-auto">
         <div class="d-flex">
             <h4 class="content-title mb-0 my-auto">invoices</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
@@ -66,19 +67,19 @@ Add invoices
                     <div class="row">
                         <div class="col">
                             <label for="inputName" class="control-label">Counter Reference</label>
-                            <select name="Reference" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
-                                <!--placeholder-->
-                                <option value="" selected disabled>Counter Reference</option>
-                                @foreach ($counters->unique('CounterReferenceid') as $counter)
-                                    <option value="{{ $counter->CounterReferenceid }}">{{ $counter->CounterReference }}</option>
-                                @endforeach
-                            </select>
+                            <select name="Reference" class="form-control js-example-basic-multiple" onchange="console.log($(this).val())">
+    <!-- placeholder -->
+    <option value="" selected disabled>Counter Reference</option>
+    @foreach ($counters->unique('CounterReferenceid') as $counter)
+        <option value="{{ $counter->CounterReferenceid }}">{{ $counter->CounterReference }}</option>
+    @endforeach
+</select>
                         </div>
 
                         {{-- Counter Type --}}
                         <div class="col">
                             <label for="inputName" class="control-label">Counter Type</label>
-                            <select name="CounterTypeCode" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+                            <select name="CounterTypeCode" class="form-control js-example-basic-multiple" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
                                 <!--placeholder-->
                                 <option value="" selected disabled>Counter Type</option>
                                 @foreach ($counters->unique('CounterTypeCode') as $counter)
@@ -90,7 +91,7 @@ Add invoices
                         {{-- Local Label --}}
                         <div class="col">
                             <label for="inputName" class="control-label">Local Label</label>
-                            <select name="LocalLabel" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+                            <select name="LocalLabel" class="form-control js-example-basic-multiple" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
                                 <!--placeholder-->
                                 <option value="" selected disabled>Local Label</option>
                                 @foreach ($counters->unique('LocalCode') as $counter)
@@ -121,7 +122,10 @@ Add invoices
                     <div class="row">
                         <div class="col">
                             <label for="inputName" class="control-label">Price</label>
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">TND</span>
                             <input type="text" class="form-control" id="Value_VAT" name="Value_VAT" oninput="calculatePrice()">
+                        </div>
                         </div>
                         <div class="col">
                             <label for="inputName" class="control-label">Total</label>
@@ -207,4 +211,63 @@ Add invoices
     document.getElementById("Total").value = totalPrice.toFixed(2);
   }
 </script>
+<script>
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>
+
+<script> 
+$(document).ready(function () {
+  // Retrieve the CSRF token value from the meta tag
+  var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+  $('.js-example-basic-multiple').on('change', function () {
+    var CounterReferenceid = $(this).val();
+
+    $.ajax({
+      url: '{{ route('populateCounterData') }}',
+      method: 'POST',
+      data: { counterReferenceId: CounterReferenceid },
+      headers: {
+        'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the headers
+      },
+      success: function (response) {
+        // Handle the response
+        var counterType = response.counterType;
+        var localLabel = response.localLabel;
+
+        console.log(response);
+        console.log(counterType);
+        console.log(localLabel);
+
+        // Update the Counter Type select element
+        var counterTypeSelect = $('select[name="CounterTypeCode"]');
+        counterTypeSelect.empty(); // Remove existing options
+
+        counterTypeSelect.append($('<option>', {
+          value: counterType.CounterTypeCode,
+          text: counterType.CounterType
+        }));
+
+        // Update the Local Label select element
+        var localLabelSelect = $('select[name="LocalLabel"]');
+        localLabelSelect.empty(); // Remove existing options
+
+        localLabelSelect.append($('<option>', {
+          value: localLabel.LocalCode,
+          text: localLabel.LocalLabel
+        }));
+      },
+      error: function (xhr, status, error) {
+        console.error(error);
+      }
+    });
+  });
+});
+
+
+</script>
+
+
 @endsection

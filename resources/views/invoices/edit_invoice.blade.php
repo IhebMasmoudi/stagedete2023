@@ -42,7 +42,7 @@ Edit invoices
     <div class="col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
-            <form action="{{ route('invoices.update', ['idinvoice' => $invoice->idinvoice]) }}" method="POST" autocomplete="off">
+            <form action="{{ route('invoices.update', ['idinvoice' => $invoice->idinvoice]) }}" method="POST" autocomplete="off" enctype="multipart/form-data">
     @method('patch')
     @csrf
 
@@ -70,7 +70,7 @@ Edit invoices
     <div class="row">
         <div class="col">
             <label for="inputName" class="control-label">Counter Reference</label>
-            <select name="Reference" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+            <select name="Reference" class="form-control js-example-basic-multiple" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
                 <option value="{{ $invoice->counter->CounterReferenceid }}" selected disabled>{{ $invoice->counter->CounterReference }}</option>
                 @foreach ($counters->unique('CounterReferenceid') as $counter)
                     <option value="{{ $counter->CounterReferenceid }}">{{ $counter->CounterReference }}</option>
@@ -80,7 +80,7 @@ Edit invoices
         {{-- Counter Type --}}
         <div class="col">
             <label for="inputName" class="control-label">Counter Type</label>
-            <select name="CounterTypeCode" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+            <select name="CounterTypeCode" class="form-control js-example-basic-multiple" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
                 <option value="{{ $invoice->counter->counterType->CounterTypeCode }}" selected disabled>{{ $invoice->counter->counterType->CounterType }}</option>
                 @foreach ($counters->unique('CounterTypeCode') as $counter)
                     <option value="{{ $counter->counterType->CounterTypeCode }}">{{ $counter->counterType->CounterType }}</option>
@@ -90,7 +90,7 @@ Edit invoices
         {{-- Local Label --}}
         <div class="col">
             <label for="inputName" class="control-label">Local Label</label>
-            <select name="LocalLabel" class="form-control SlectBox" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
+            <select name="LocalLabel" class="form-control js-example-basic-multiple" onclick="console.log($(this).val())" onchange="console.log('change is firing')">
                 <option value="{{ $invoice->counter->locations->LocalCode }}" selected disabled>{{ $invoice->counter->locations->LocalLabel }}</option>
                 @foreach ($counters->unique('LocalCode') as $counter)
                     <option value="{{ $counter->locations->LocalCode }}">{{ $counter->locations->LocalLabel }}</option>
@@ -108,7 +108,7 @@ Edit invoices
         <div class="col">
             <label for="inputName" class="control-label">VAT</label>
             <select name="Rate_VAT" id="Rate_VAT" class="form-control" onchange="calculatePrice()">
-                <option value="{{ $invoice->rate_vat }}" selected disabled>{{ $invoice->rate_vat }}</option>
+                <option value="{{ $invoice->rate_vat }}" selected disabled>Choose Vat</option>
                 <option value="5">5%</option>
                 <option value="7">7%</option>
                 <option value="10">10%</option>
@@ -232,4 +232,9 @@ Edit invoices
       console.log("value_Status:", value_Status);
     }
   </script>
+  <script> 
+$(document).ready(function() {
+    $('.js-example-basic-multiple').select2();
+});
+</script>
 @endsection

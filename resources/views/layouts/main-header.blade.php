@@ -16,6 +16,12 @@
 							<input class="form-control" placeholder="Search for anything..." type="search"> <button class="btn"><i class="fas fa-search d-none d-md-block"></i></button>
 						</div>
 					</div>
+<div  >
+					<a class="btn btn-primary" href="{{ url('/' . $page='invoices/create') }}"  style="border-radius: 10px">
+    <i class="fas fa-file-invoice"></i>
+    <span style="margin-left: 10px;">Add INVOICE</span>
+  </a>
+  </div>
 					<div class="main-header-right">
 						
 						<div class="nav nav-item  navbar-nav-right ml-auto">
@@ -34,6 +40,18 @@
 									</div>
 								</form>
 							</div>
+							<li class="nav-item dropdown">
+    <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {{ Config::get('languages')[App::getLocale()] }}
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+    @foreach (Config::get('languages') as $lang => $language)
+        @if ($lang != App::getLocale())
+                <a class="dropdown-item" href="{{ route('lang.switch', $lang) }}"> {{$language}}</a>
+        @endif
+    @endforeach
+    </div>-->
+</li>
 							<!--
 							<div class="dropdown nav-item main-header-message ">
 								<a class="new nav-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg><span class=" pulse-danger"></span></a>

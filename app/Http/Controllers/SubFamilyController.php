@@ -15,9 +15,11 @@ class SubFamilyController extends Controller
      */
     public function index()
     { {
-            $locality_families = Locality_Family::all();
+            #$locality_families = Locality_Family::all();
             $sub_familys = SubFamily::all();
-            return view('subfamily.subfamily', compact('locality_families', 'sub_familys'));
+            return view('subfamily.subfamily', compact('sub_familys'));
+
+            #return view('subfamily.subfamily', compact('locality_families', 'sub_familys'));
         }
     }
 
@@ -42,7 +44,8 @@ class SubFamilyController extends Controller
     {
         $input = $request->validate([
             'SubFamily' => 'required|unique:sub_families',
-            'FamilyCode' => 'required',
+            'LocalFamily' => 'required',
+
             // Add any other validation rules for the input fields
         ]);
     
@@ -55,7 +58,8 @@ class SubFamilyController extends Controller
         } else {
             SubFamily::create([
                 'SubFamily' => $input['SubFamily'],
-                'FamilyCode' => $input['FamilyCode'],
+                'LocalFamily' => $input['LocalFamily'],
+                #'FamilyCode' => $input['FamilyCode'],
             ]);
     
             session()->flash('Add', 'SubFamily created successfully.');
@@ -93,7 +97,7 @@ class SubFamilyController extends Controller
      * @param  \App\SubFamily  $subFamily
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+   /* public function update(Request $request)
     {
         $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
         $localFamily = Locality_Family::where('LocalFamily', $request->LocalFamily)->first();
@@ -110,7 +114,23 @@ class SubFamilyController extends Controller
             // Handle the case when the LocalFamily doesn't exist
             return back()->withErrors('LocalFamily does not exist.');
         }
+    }*/
+
+    public function update(Request $request)
+    {
+        $subFamily = SubFamily::findOrFail($request->SubFamilyCode);
+    
+        
+            $subFamily->update([
+                'SubFamily' => $request->SubFamily,
+                'LocalFamily' => $request->LocalFamily,
+            ]);
+    
+            session()->flash('edit', 'Edit successful');
+            return back();
+     
     }
+    
     
 
     /**

@@ -321,7 +321,7 @@
             var counterReference = $(this).data('counter-reference');
             $('#counterReferenceId').val(counterReferenceId);
             $('#counterReference').val(counterReference);
-        });
+        });+
     });
 </script>
 

@@ -9,11 +9,12 @@ class SubFamily extends Model
     protected $primaryKey = 'SubFamilyCode';
     protected $fillable = [
         'SubFamily',
-        'FamilyCode'
+        'LocalFamily'
+        #'FamilyCode'
     ];
 
-    public function localityFamily()
+   /* public function localityFamily()
     {
         return $this->belongsTo(locality_family::class, 'FamilyCode', 'FamilyCode');
-    }
+    }*/
 }

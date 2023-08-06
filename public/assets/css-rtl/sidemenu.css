@@ -1167,3 +1167,17 @@ slide is-expanded side-menu__item {
   fill: #106ef1; }
 
 /*# sourceMappingURL=sidemenu.css.map */
+
+.sidebar-icons{
+		
+    font-size: 23px;
+    line-height: 0;
+    margin-left: 14px;
+    width: 22px;
+    height: 22px;
+    line-height: 34px;
+    border-radius: 3px;
+    text-align: center;
+    color: #a8b1c7;
+    fill: #5b6e88;
+		}
