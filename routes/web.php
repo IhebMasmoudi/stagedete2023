@@ -50,7 +50,10 @@ Route::get('getCounterInfo', 'InvoicesController@getCounterInfo')->name('getCoun
 //Route::get('/getCounterInfo/{counterReferenceId}', 'InvoicesController@getCounterInfo')->name('getCounterInfo');
 
 Route::post('generate', 'HomeController@generate')->name('generate');
+//redirection new test
+// routes/web.php
 
+Route::get('new-page', 'InvoicesController@getCounterDetails');
 
 Route::patch('invoices/edit/{idinvoice}', 'InvoicesController@update')->name('invoices.update');
 

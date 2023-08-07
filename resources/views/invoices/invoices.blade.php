@@ -149,6 +149,9 @@
   </div>
 </div>
  <!--/div-->
+
+<!--popup-->
+ <!--
  <div class="modal fade" id="counter-info-modal" tabindex="-1" role="dialog" aria-labelledby="counter-info-modal-label"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -184,7 +187,7 @@
     </div>
   </div>
 </div>
-
+-->
 
 
 <!-- Container closed -->
@@ -210,6 +213,7 @@
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+<!--
 <script>
 $(document).ready(function() {
   $('.open-modal').on('click', function() {
@@ -238,5 +242,17 @@ $(document).ready(function() {
 });
 </script>
 
+-->
+<!-- Mettez ce script dans la vue welcome.blade.php ou toute autre vue qui inclut le bouton -->
+<script>
+$(document).ready(function() {
+  $('.open-modal').on('click', function() {
+    var counterId = $(this).data('counter-id');
+
+    // Rediriger vers la nouvelle page en passant le counterId en tant que paramètre de requête
+    window.location.href = '/invoices/new-page?CounterReferenceid=' + counterId;
+  });
+});
+</script>
 
 @endsection
