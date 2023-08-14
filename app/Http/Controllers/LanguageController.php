@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class LanguageController extends Controller
 {
-
-    public function switchLang($lang)
+    public function changeLanguage($locale)
     {
-        if (array_key_exists($lang, Config::get('languages'))) {
-            Session::put('applocale', $lang);
+        if (in_array($locale, ['en', 'fr'])) {
+            session(['locale' => $locale]);
+            session()->save();
         }
-        return Redirect::back();
+        return back();
     }
 }

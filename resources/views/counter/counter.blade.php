@@ -99,8 +99,6 @@
 
                                 <th class="border-bottom-0"> Counter Type </th>
 
-
-
                                 <th class="border-bottom-0"></th>
                                 <th class="border-bottom-0"></th>
 
@@ -114,7 +112,10 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>{{ $counter->CounterReference }}</td>
-                                <td>{{ $counter->locations->LocalLabel }}</td>
+                              <td>
+                                <a data-CounterReferenceid="{{ $counter->locations->LocalLabel }}" href="{{ route('counter.counter-stats', ['CounterReferenceid' => $counter->CounterReferenceid]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+                                    {{ $counter->locations->LocalLabel }}  </a>
+                              </td>
                                 <td>{{ $counter->locations->LocalAddress }}</td>
                                 <td>{{ $counter->counterType->CounterType }}</td>
                                 <td>{{ $counter->CounterReferenceid }}</td>

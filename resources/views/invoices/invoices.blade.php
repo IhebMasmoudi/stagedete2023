@@ -68,9 +68,14 @@
                 <td>{{ $invoice->invoice_Date }}</td>
                 <td>{{ $invoice->due_date }}</td>
                 <td>
-  <button class="btn btn-light open-modal" data-counter-id="{{ $invoice->counter->CounterReferenceid }}">
+ 
+
+
+  <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.new-page', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
     {{ $invoice->counter->CounterReference }}
-  </button>
+</a>
+
+  
 </td>
 
                 <td>{{ $invoice->counter->counterType->CounterType }}</td>
@@ -243,16 +248,44 @@ $(document).ready(function() {
 </script>
 
 -->
-<!-- Mettez ce script dans la vue welcome.blade.php ou toute autre vue qui inclut le bouton -->
-<script>
-$(document).ready(function() {
-  $('.open-modal').on('click', function() {
-    var counterId = $(this).data('counter-id');
 
-    // Rediriger vers la nouvelle page en passant le counterId en tant que paramètre de requête
-    window.location.href = '/invoices/new-page?CounterReferenceid=' + counterId;
-  });
-});
-</script>
+ <!--/div-->
+ <div class="modal fade" id="counter-info-modal" tabindex="-1" role="dialog" aria-labelledby="counter-info-modal-label"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="counter-info-modal-label">Counter Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>Counter Reference:</td>
+              <td><span id="modal-counter-reference"></span></td>
+            </tr>
+            <tr>
+              <td>Counter Type:</td>
+              <td><span id="modal-counter-type"></span></td>
+            </tr>
+            <tr>
+              <td>Local Label:</td>
+              <td><span id="modal-local-label"></span></td>
+            </tr>
+            <!-- Add more counter information fields here as needed -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 @endsection

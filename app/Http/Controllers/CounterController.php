@@ -130,5 +130,11 @@ class CounterController extends Controller
     }
 
 
-  
+    public function getCounterStats($CounterReferenceid)
+    {
+        $counter = counters::findOrFail($CounterReferenceid);
+
+
+        return view('counter.counter-stats', compact('counter'));
+    }
 }

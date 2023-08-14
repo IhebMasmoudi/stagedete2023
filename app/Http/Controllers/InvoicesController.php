@@ -120,22 +120,14 @@ class InvoicesController extends Controller
     }
 
 
-    public function getCounterDetails(Request $request)
+    public function getCounterDetails($idinvoice)
     {
-        $CounterReferenceid = $request->input('CounterReferenceid');
-        $counter = Counters::findOrFail($CounterReferenceid);
+        $invoice = Invoices::findOrFail($idinvoice);
 
-        // Assuming 'counterType' and 'locations' are relations defined in your Counters model
-        $counterType = $counter->counterType->CounterType;
-        $localLabel = $counter->locations->LocalLabel;
 
-        return response()->json([
-            'CounterReference' => $counter->CounterReference,
-            'counterType' => $counterType,
-            'LocalLabel' => $localLabel,
-            // Add more counter information fields here as needed
-        ]);
+        return view('invoices.new-page', compact('invoice'));
     }
+
 
 
     /**
