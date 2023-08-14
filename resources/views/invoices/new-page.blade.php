@@ -103,60 +103,6 @@ Invoice Details
 <canvas id="barChart"></canvas>
 <canvas id="lineChart"></canvas>
 <canvas id="pieChart"></canvas>
-@extends('layouts.master')
-@section('css')
-<!-- Add your CSS imports here -->
-@endsection
-
-@section('title')
-Counter Stats
-@stop
-
-@section('content')
-<!-- Your existing content -->
-
-<!-- Add chart canvas elements here -->
-<canvas id="invoiceAmountChart"></canvas>
-<canvas id="counterTypeDistributionChart"></canvas>
-@endsection
-
-@section('js')
-<script src="{{ URL::asset('assets/plugins/chart.js/Chart.bundle.min.js') }}"></script>
-
-<script>
-    // Receive the Local Label from the URL parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const localLabel = urlParams.get('localLabel');
-
-    // You'll need to fetch data from your backend using AJAX or other methods
-    // to get the counts of counter types for the specific Local Label
-    // Here's a simplified example assuming you have fetched the data
-
-    // Example data structure: object with counter type counts
-    const counterTypeData = {
-        "Electricity": 10,  // Replace with actual count
-        "Water": 5,
-        "Gas": 3
-        // Add other counter types and counts
-    };
-
-    // Create the counter type distribution chart
-    const counterTypeDistributionChart = new Chart(document.getElementById('counterTypeDistributionChart'), {
-        type: 'pie',
-        data: {
-            labels: Object.keys(counterTypeData),
-            datasets: [{
-                data: Object.values(counterTypeData),
-                backgroundColor: ['red', 'green', 'blue'], // Add more colors as needed
-                borderWidth: 1
-            }]
-        },
-        options: {
-            // Chart options
-        }
-    });
-</script>
-@endsection
 
                     </div>
                     <hr class="mg-b-40">
