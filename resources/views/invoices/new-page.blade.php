@@ -98,26 +98,53 @@ Invoice Details
                                
                             </tbody>
                         </table>
-                        <!-- ... Votre tableau existant ... -->
 
-<canvas id="barChart"></canvas>
-<canvas id="lineChart"></canvas>
-<canvas id="pieChart"></canvas>
 
-                    </div>
-                    <hr class="mg-b-40">
-                  
-                </div>
-            </div>
-        </div>
+                       
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="pl-3 pt-3 pr-3 pb-2 pt-0">     
+                                    <div class="col-md-4">
+                                        <div class="card overflow-hidden sales-card bg-primary-gradient">
+                                            <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+                                               
+                                <div class="pb-0 mt-0">
+                                    <div class="d-flex">
+                                        <div class="">
+                                            @php      
+                                                $counterReference = $invoice->counter->CounterReference;
+                            
+                                                $totalInvoices = \App\Invoices::whereHas('counter', function($query) use ($counterReference) {
+                                                    $query->where('CounterReference', $counterReference);
+                                                })->sum('Total');
+                            
+                                                $invoiceCount = \App\Invoices::whereHas('counter', function($query) use ($counterReference) {
+                                                    $query->where('CounterReference', $counterReference);
+                                                })->count();
+                                            @endphp
+                                             <div class="text-center">
+                                                <h6 class="mb-3 tx-12 text-white">Counter Refrence &nbsp;&nbsp;&nbsp; {{ $counterReference }}</h6> 
+                                        <div class="text-center">
+                                            <p class="mb-3 tx-12 text-white">Invoices number &nbsp;&nbsp;&nbsp; {{ $invoiceCount }} </p>
+                                        </div>
+                                                <h6 class="mb-3 tx-12 text-white">Total Invoices amount &nbsp;&nbsp;&nbsp;   {{ $totalInvoices }}</h6>
+                                            </div>
+                                     
+                                        </div>
+                                        <span id="compositeline" class="pt-1"></span>
 
-     
-    </div><!-- COL-END -->
-</div>
-<!-- row closed -->
-</div>
-<!-- Container closed -->
-</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                         <!-- for counter type-->
+                       
+              
+    
+    
+                                                
 <!-- main-content closed -->
 @endsection
 @section('js')
