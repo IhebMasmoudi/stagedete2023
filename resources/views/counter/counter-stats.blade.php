@@ -131,42 +131,36 @@ Counter Details
                                 <span id="compositeline" class="pt-1"></span>
                             </div>
                         </div>
+
+                        @php
+    $counterLocalAddresses = \App\counters::whereHas('locations', function($query) use ($counterLocalLabel) {
+        $query->where('LocalLabel', $counterLocalLabel);
+    })
+    ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+    ->select('locations.LocalAddress', \DB::raw('count(*) as count'))
+    ->groupBy('locations.LocalAddress')
+    ->get();
+
+    $totalCounterAddresses = $counterLocalAddresses->sum('count');
+@endphp
+
+            
                         
                         <div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
                             <div class="card overflow-hidden sales-card bg-danger-gradient">
                                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                                     <div class="">
-                                        <h6 class="mb-3 tx-12 text-white">  Unpaid</h6>
+                                        <h6 class="mb-3 tx-12 text-white">  Local Address</h6>
                                     </div>
                                     <div class="pb-0 mt-0">
                                         <div class="d-flex">
                                             <div class="">
                                                 <h3 class="tx-20 font-weight-bold mb-1 text-white">
                 
-                                                    {{ number_format(\App\invoices::where('Value_Status', 2)->sum('Total'), 2) }}
-                
+                                                    {{ $counter->locations->LocalAddress }}  
                                                 </h3>
-                                                <p class="mb-0 tx-12 text-white op-7">{{ \App\invoices::where('Value_Status', 2)->count() }}
-                                                </p>
                                             </div>
-                                            <span class="float-right my-auto mr-auto">
-                                                <i class="fas fa-arrow-circle-down text-white"></i>
-                                                <span class="text-white op-7">
-                
-                                                    @php
-                                                    $count_all= \App\invoices::count();
-                                                    $count_invoices2 = \App\invoices::where('Value_Status', 2)->count();
-                
-                                                    if($count_invoices2 == 0){
-                                                       echo $count_invoices2 = 0;
-                                                    }
-                                                    else{
-                                                       echo $count_invoices2 = $count_invoices2 / $count_all *100;
-                                                    }
-                                                    @endphp
-                
-                                                </span>
-                                            </span>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -177,36 +171,15 @@ Counter Details
                             <div class="card overflow-hidden sales-card bg-success-gradient">
                                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                                     <div class="">
-                                        <h6 class="mb-3 tx-12 text-white"> Paid</h6>
+                                        <h6 class="mb-3 tx-12 text-white"> Counter Refrence</h6>
                                     </div>
                                     <div class="pb-0 mt-0">
                                         <div class="d-flex">
                                             <div class="">
                                                 <h4 class="tx-20 font-weight-bold mb-1 text-white">
-                
-                                                    {{ number_format(\App\invoices::where('Value_Status', 1)->sum('Total'), 2) }}
-                
+                                                    {{ $counter->CounterReference }}                
                                                 </h4>
-                                                <p class="mb-0 tx-12 text-white op-7">
-                                                    {{ \App\invoices::where('Value_Status', 1)->count() }}
-                                                </p>
                                             </div>
-                                            <span class="float-right my-auto mr-auto">
-                                                <i class="fas fa-arrow-circle-up text-white"></i>
-                                                <span class="text-white op-7">
-                                                    @php
-                                                        $count_all= \App\invoices::count();
-                                                        $count_invoices1 = \App\invoices::where('Value_Status', 1)->count();
-                
-                                                        if($count_invoices1 == 0){
-                                                           echo $count_invoices1 = 0;
-                                                        }
-                                                        else{
-                                                           echo $count_invoices1 = $count_invoices1 / $count_all *100;
-                                                        }
-                                                    @endphp
-                                                </span>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -217,58 +190,69 @@ Counter Details
                             <div class="card overflow-hidden sales-card bg-warning-gradient">
                                 <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
                                     <div class="">
-                                        <h6 class="mb-3 tx-12 text-white"> Other </h6>
+                                        <h6 class="mb-3 tx-12 text-white"> Counter Type </h6>
                                     </div>
                                     <div class="pb-0 mt-0">
                                         <div class="d-flex">
                                             <div class="">
                                                 <h4 class="tx-20 font-weight-bold mb-1 text-white">
                 
-                                                    {{ number_format(\App\invoices::where('Value_Status', 3)->sum('Total'), 2) }}
-                
+                                                    {{$counter->counterType->CounterType }}                
                                                 </h4>
-                                                <p class="mb-0 tx-12 text-white op-7">
-                                                    {{ \App\invoices::where('Value_Status', 3)->count() }}
-                                                </p>
                                             </div>
-                                            <span class="float-right my-auto mr-auto">
-                                                <i class="fas fa-arrow-circle-down text-white"></i>
-                                                <span class="text-white op-7">
-                                                    @php
-                                                        $count_all= \App\invoices::count();
-                                                        $count_invoices1 = \App\invoices::where('Value_Status', 1)->count();
-                
-                                                        if($count_invoices1 == 0){
-                                                            echo $count_invoices1 = 0;
-                                                        }
-                                                        else{
-                                                          echo $count_invoices1 = $count_invoices1 / $count_all *100;
-                                                        }
-                                                    @endphp
-                                                </span>
-                                            </span>
                                         </div>
                                     </div>
                                 </div>
                                 <span id="compositeline4" class="pt-1"></span>
                             </div>
-                        </div>
-                
-                
+                        </div>     
                     </div>
 
 
+<!--District Name-->
 
+@php
+    $districtName = \App\counters::whereHas('locations', function($query) use ($counterLocalLabel) {
+        $query->where('LocalLabel', $counterLocalLabel);
+    })
+    ->join('locations', 'counters.LocalCode', '=', 'locations.LocalCode')
+    ->join('districts', 'locations.DistrictCode', '=', 'districts.id')
+    ->select('districts.District_name')
+    ->pluck('districts.District_name')
+    ->first();
+@endphp
+
+
+<div class="col-xl-3 col-lg-6 col-md-6 col-xm-12">
+    <div class="card overflow-hidden sales-card bg-success-gradient">
+        <div class="pl-3 pt-3 pr-3 pb-2 pt-0">
+            <div class="">
+                <h6 class="mb-3 tx-12 text-white"> Counter Type </h6>
+            </div>
+            <div class="pb-0 mt-0">
+                <div class="d-flex">
+                    <div class="">
+                        <h4 class="tx-20 font-weight-bold mb-1 text-white">
+
+                            @if ($districtName)
+                            <p>{{ $districtName }}</p>
+                        @else
+                            <p>No district associated with this counter and location.</p>
+                        @endif                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span id="compositeline4" class="pt-1"></span>
+    </div>
+</div>  
 
     <!--Counter Types-->
-<div class="row justify-content-start">
+<div class="row justify-content-end">
     <div class="col-md-6"> <!-- Adjust the column width as needed -->
         <div class="text-center">
-            <h6 class="mb-3 tx-12 text-black">Counter Local Label &nbsp;&nbsp;&nbsp; {{ $counterLocalLabel }}</h6>
             <!-- Titre du graphique -->
             <h6 class="mb-3 tx-12 text-black">Counter Types</h6>
-            
-    
 
             <!-- Smaller Graphique doughnut -->
             <div style="max-width: 300px; margin: auto;">
@@ -278,7 +262,8 @@ Counter Details
     </div>
 </div>
 
-        
+
+
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script>
             var counterTypeCounts = @json($counterTypeCounts);
@@ -327,8 +312,6 @@ Counter Details
         </script>
 
 
-
-        <!--test cards-->
 <!-- COL-END -->
 </div>
 <!-- row closed -->
