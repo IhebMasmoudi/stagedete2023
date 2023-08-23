@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class invoices extends Model
-{  use SoftDeletes;
+{
+    use SoftDeletes;
     protected $primaryKey = 'idinvoice';
 
     protected $fillable = [
@@ -25,9 +26,20 @@ class invoices extends Model
         'CounterReferenceid'
     ];
     protected $dates = ['deleted_at'];
+    
     public function counter()
     {
         return $this->belongsTo(counters::class, 'CounterReferenceid', 'CounterReferenceid');
     }
 
+
+
+    public static function rules()
+    {
+        return [
+            'note'  => 'nullable|string',
+            //'pathImage' => 'nullable',
+
+        ];
+    }
 }

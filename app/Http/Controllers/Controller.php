@@ -10,4 +10,16 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+
+    public function __construct()
+    {
+        $this->setLocale();
+    }
+
+    protected function setLocale()
+    {
+        $locale = session('locale', config('app.locale'));
+        app()->setLocale($locale);
+    }
 }

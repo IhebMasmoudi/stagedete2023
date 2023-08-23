@@ -68,9 +68,14 @@
                 <td>{{ $invoice->invoice_Date }}</td>
                 <td>{{ $invoice->due_date }}</td>
                 <td>
-  <button class="btn btn-light open-modal" data-counter-id="{{ $invoice->counter->CounterReferenceid }}">
+ 
+
+
+  <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.new-page', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
     {{ $invoice->counter->CounterReference }}
-  </button>
+</a>
+
+  
 </td>
 
                 <td>{{ $invoice->counter->counterType->CounterType }}</td>
@@ -149,6 +154,102 @@
   </div>
 </div>
  <!--/div-->
+
+<!--popup-->
+ <!--
+ <div class="modal fade" id="counter-info-modal" tabindex="-1" role="dialog" aria-labelledby="counter-info-modal-label"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="counter-info-modal-label">Counter Information</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>Counter Reference:</td>
+              <td><span id="modal-counter-reference"></span></td>
+            </tr>
+            <tr>
+              <td>Counter Type:</td>
+              <td><span id="modal-counter-type"></span></td>
+            </tr>
+            <tr>
+              <td>Local Label:</td>
+              <td><span id="modal-local-label"></span></td>
+            </tr>
+            <!-- Add more counter information fields here as needed -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+
+<!-- Container closed -->
+@endsection
+
+@section('js')
+<!-- Internal Data tables -->
+<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
+<!--Internal  Datatable js -->
+<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+<!--
+<script>
+$(document).ready(function() {
+  $('.open-modal').on('click', function() {
+    var counterId = $(this).data('counter-id');
+     $.ajax({
+      url: '{{ route('getCounterInfo') }}',
+      type: 'GET',
+      data: { CounterReferenceid: counterId },
+      success: function(response) {
+        console.log(response);
+        // Populate the pop-up modal with the counter information
+        $('#modal-counter-reference').text(response.CounterReference);
+        $('#modal-counter-type').text(response.counterType);
+        $('#modal-local-label').text(response.LocalLabel);
+        // Add more lines here to populate other fields in the modal if needed
+
+         // Show the pop-up modal
+         $('#counter-info-modal').modal('show');
+      },
+      error: function(xhr) {
+        // Handle any errors that occur during the AJAX request
+        console.log(xhr.responseText);
+      }
+    });
+  });
+});
+</script>
+
+-->
+
+ <!--/div-->
  <div class="modal fade" id="counter-info-modal" tabindex="-1" role="dialog" aria-labelledby="counter-info-modal-label"
   aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -185,58 +286,6 @@
   </div>
 </div>
 
-
-
-<!-- Container closed -->
-@endsection
-
-@section('js')
-<!-- Internal Data tables -->
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.dataTables.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/jszip.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/pdfmake.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/vfs_fonts.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.html5.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.print.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/buttons.colVis.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
-<!--Internal  Datatable js -->
-<script src="{{URL::asset('assets/js/table-data.js')}}"></script>
-<script>
-$(document).ready(function() {
-  $('.open-modal').on('click', function() {
-    var counterId = $(this).data('counter-id');
-     $.ajax({
-      url: '{{ route('getCounterInfo') }}',
-      type: 'GET',
-      data: { CounterReferenceid: counterId },
-      success: function(response) {
-        console.log(response);
-        // Populate the pop-up modal with the counter information
-        $('#modal-counter-reference').text(response.CounterReference);
-        $('#modal-counter-type').text(response.counterType);
-        $('#modal-local-label').text(response.LocalLabel);
-        // Add more lines here to populate other fields in the modal if needed
-
-         // Show the pop-up modal
-         $('#counter-info-modal').modal('show');
-      },
-      error: function(xhr) {
-        // Handle any errors that occur during the AJAX request
-        console.log(xhr.responseText);
-      }
-    });
-  });
-});
-</script>
 
 
 @endsection
