@@ -394,4 +394,31 @@ class InvoicesController extends Controller
 
         return response()->json($counter);
     }*/
+
+    //s7i7a
+    /* public function showInvoicesWithSameCounterReference($counterReference)
+    {
+        $invoicesWithSameCounter = Invoices::where('CounterReference', $counterReference)->get();
+
+        return view('invoices.new-page', compact('invoicesWithSameCounter'));
+    }*/
+
+    public function showInvoicesWithSameCounterReference($counterReference)
+    {
+        $counter = counters::where('CounterReference', $counterReference)->firstOrFail();
+
+        $invoices = $counter->invoices;
+        $totalInvoices = $invoices->sum('Total');
+        $invoiceCount = $invoices->count();
+
+        return view('invoices.new-page', compact('counter', 'invoices', 'totalInvoices', 'invoiceCount'));
+    }
+
+
+    public function InvoiceDeatils($idinvoice)
+    {
+        $invoice = Invoices::findOrFail($idinvoice);
+
+        return view('invoices.invoices-detail-page', compact('invoice'));
+    }
 }

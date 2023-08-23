@@ -104,3 +104,25 @@ Route::get('/{page}', 'AdminController@index');
 
 //traduction
 Route::get('change-language/{locale}', 'LanguageController@changeLanguage')->name('changeLanguage');
+
+//tabulation
+Route::get('/tab1', function () {
+
+    return view('/invoices/new-page');
+});
+
+Route::get('/tab2', function () {
+
+    return view('/new-page');
+});
+
+Route::get('/tab3', function () {
+
+    return view('/invoices/new-page');
+});
+
+
+Route::get('/invoices/new-page/{counterReference}', 'InvoiceController@showInvoicesWithSameCounterReference')->name('showInvoicesWithSameCounterReference');
+
+//Invoice Details
+Route::get('invoices/InvoiceDeatils/{idinvoice}', 'InvoicesController@InvoiceDeatils')->name('invoices.InvoiceDeatils');

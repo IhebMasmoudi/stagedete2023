@@ -23,4 +23,9 @@ class counters extends Model
     {
         return $this->belongsTo(counter_types::class, 'CounterTypeCode');
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(invoices::class, 'CounterReferenceid');
+    }
 }

@@ -26,10 +26,13 @@ class invoices extends Model
         'CounterReferenceid'
     ];
     protected $dates = ['deleted_at'];
+    
     public function counter()
     {
         return $this->belongsTo(counters::class, 'CounterReferenceid', 'CounterReferenceid');
     }
+
+
 
     public static function rules()
     {
