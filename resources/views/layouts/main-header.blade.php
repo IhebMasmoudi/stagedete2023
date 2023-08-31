@@ -22,16 +22,7 @@
     <span style="margin-left: 10px;">Add INVOICE</span>
   </a>
   </div>
-  <!-- Exemple de code HTML pour le sélecteur de langue -->
-  <div class="language-dropdown">
-    <form action="{{ route('changeLanguage', app()->getLocale()) }}" method="GET">
-        @csrf
-        <select name="locale" onchange="this.form.submit()">
-			<option value="fr" {{ app()->getLocale() == 'fr' ? 'selected' : '' }}>Français</option>
-            <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
-        </select>
-    </form>
-</div>
+ 
 
 
 
