@@ -111,14 +111,15 @@
                             <?php $i++; ?>
                             <tr>
                                 <td>{{ $i }}</td>
-                                <td>{{ $counter->CounterReference }}</td>
-                              <td>
-                                <a data-CounterReferenceid="{{ $counter->locations->LocalLabel }}" href="{{ route('counter.counter-stats', ['CounterReferenceid' => $counter->CounterReferenceid]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
-                                    {{ $counter->locations->LocalLabel }}  </a>
-                              </td>
+                                
+                                <td>
+                                    <a data-CounterReferenceid="{{ $counter->CounterReference }}" href="{{ route('counter.counter-stats', ['CounterReferenceid' => $counter->CounterReferenceid]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+                                        {{ $counter->CounterReference }}  </a>
+                                  </td>
+                            
+                              <td> {{ $counter->locations->LocalLabel }}</td>
                                 <td>{{ $counter->locations->LocalAddress }}</td>
                                 <td>{{ $counter->counterType->CounterType }}</td>
-                                <td>{{ $counter->CounterReferenceid }}</td>
                                 <td>
                                     <button class="btn btn-outline-success btn-sm edit-button" data-counter-reference-id="{{ $counter->CounterReferenceid }}" data-CounterReference="{{ $counter->CounterReference }}" data-LocalCode="{{ $counter->locations->LocalCode }}" data-CounterTypeCode="{{ $counter->counterType->CounterTypeCode }}" data-toggle="modal" data-target="#edit_counter">
                                         Edit

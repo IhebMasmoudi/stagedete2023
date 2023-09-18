@@ -13,8 +13,8 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
             <div>
-                <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">{{ __('messages.welcome_back') }}</h2> 
-
+               <!-- <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">{{ __('messages.welcome_back') }}</h2>--> 
+<h2 class="main-content-title center tx-24 mg-b-1 mg-b-lg-1">!! Welecome to your dashbaord</h2>
             </div>
         </div>
         
@@ -178,7 +178,7 @@
         <div class="card">
             <div class="card-header bg-transparent pd-b-0 pd-t-20 bd-b-0">
                 <div class="d-flex justify-content-between">
-                    <h4 class="card-title mb-0">Statistics</h4>
+                    <h4 class="card-title mb-0">Invoices status</h4>
                     <i class="mdi mdi-dots-horizontal text-gray"></i>
                 </div>
             </div>
@@ -190,28 +190,21 @@
 
     <div class="col-lg-12 col-xl-5">
         <div class="card card-dashboard-map-one">
-            <label class="main-content-label">Statistics</label>
+            <label class="main-content-label">Invoices</label>
             <div class="" style="width: 100%">
                 {!! $chartjs_2->render() !!}
             </div>
         </div>
     </div>
 
-    <div class="col-lg-12 col-xl-5">
-        <div class="card card-dashboard-map-one">
-            <label class="main-content-label">Statistics</label>
-            <div class="" style="width: 100%">
-                {!! $chartjs1->render() !!}
-            </div>
-        </div>
-    </div>
+  
 
     <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <h1>Chart Per Local and Date </h1>
+                    <h1> Consumption Chart Per Local and Date </h1>
                     <form id="chartForm" action="{{ route('generate') }}" method="POST">
                         @csrf
                         <div class="form-group">
@@ -248,9 +241,14 @@
 
 </div>
 </div>
-
-
-<!-- row closed -->
+<div class="col-lg-12 col-xl-5">
+    <div class="card card-dashboard-map-one">
+        <label class="main-content-label">Counter types</label>
+        <div class="" style="width: 100%">
+            {!! $chartjs1->render() !!}
+        </div>
+    </div>
+</div>
 
 <!-- Container closed -->
 @endsection

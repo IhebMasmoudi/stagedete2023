@@ -3,7 +3,7 @@
 
 @endsection
 @section('title')
-Invoice Details Dashboard
+Counter Details Dashboard
 @stop
 @section('page-header')
 <!-- breadcrumb -->
@@ -28,7 +28,7 @@ Invoice Details Dashboard
             <div class="card card-invoice">
                 <div class="card-body">
                     <div class="invoice-header">
-                        <h1 class="invoice-title">Invoices Details Dashboard</h1>
+                        <h1 class="invoice-title">Counter Details Dashboard</h1>
                     </div>
 
                     <div class="table-responsive mg-t-40">
@@ -40,7 +40,7 @@ Invoice Details Dashboard
 <div class="container">
 <ul class="nav nav-pills " role="tablist">
     <li class="nav-item">
-        <a class="nav-link" id="nav-tab-2" data-toggle="tab" href="#tabs-2" role="tab" >Invoices Dashboard</a>
+        <a class="nav-link" id="nav-tab-2" data-toggle="tab" href="#tabs-2" role="tab" >Invoice Dashboard</a>
     </li>
    
 	<li class="nav-item">
@@ -61,7 +61,7 @@ Invoice Details Dashboard
 	
     <div class="tab-pane active" id="tabs-2" role="tabpanel">
         <br>
-        <h4>Invoices Dashboard</h4>
+        <h4>Invoice Dashboard</h4>
         <br>
         <div id="invoices-list-container">
                           <!-- for counter type-->
@@ -238,16 +238,19 @@ Invoice Details Dashboard
                 <div class="col-md">
                   <label class="tx-gray-600">Counter Deatils</label>
 
-                  <p class="invoice-info-row"><span>Counter Reference</span>
-                    <span>{{ $invoice->counter->CounterReference }}</span>
-                </p>
+             <p class="invoice-info-row"><span>Counter Reference</span>
+                    <a data-idinvoice="{{ $invoice->counter->CounterReference }}" href="{{ url('/counter/counter-stat/' . $invoice->counter->CounterReferenceid) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+                        <span>{{ $invoice->counter->CounterReference }}</span>
+
+                      </a>
+                    </td>
+            </p>
+
+
                 <p class="invoice-info-row"><span>Counter Type</span>
                   <td>{{ $invoice->counter->counterType->CounterType }}</td>
                 </p>
-                    <p class="invoice-info-row"><span>Invoice Number</span>
-                        <span>{{ $invoice->invoice_number }}</span>
-                    </p>
-                   
+                  
                 </div>
         </div>
     </div>
@@ -288,9 +291,11 @@ Invoice Details Dashboard
               <td>{{ $invoice->due_date }}</td>
               <td>
 
-<a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.new-page', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
-  {{ $invoice->counter->CounterReference }}
-</a>
+
+                <a data-idinvoice="{{ $invoice->counter->CounterReference }}" href="{{ url('/counter/counter-stat/' . $invoice->counter->CounterReferenceid) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+                    <span>{{ $invoice->counter->CounterReference }}</span>
+              
+                  </a>
 </td>
 <br>
 <td>{{ $invoice->counter->counterType->CounterType }}</td>
