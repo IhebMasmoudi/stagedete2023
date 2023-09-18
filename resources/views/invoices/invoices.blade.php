@@ -64,16 +64,26 @@
               @forelse ($invoices as $invoice)
               <tr>
                 <td>{{ $loop->iteration }}</td>
-                <td>{{ $invoice->invoice_number }}</td>
+                
+ 
+<td>
+                <a data-idinvoice="{{ $invoice->invoice_number }}" href="{{ route('invoices.new-page', ['idinvoice' => $invoice->invoice_number]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+                  {{ $invoice->invoice_number }}
+              </a>
+</td>
+                
                 <td>{{ $invoice->invoice_Date }}</td>
                 <td>{{ $invoice->due_date }}</td>
                 <td>
  
 
 
-  <a data-idinvoice="{{ $invoice->idinvoice }}" href="{{ route('invoices.new-page', ['idinvoice' => $invoice->idinvoice]) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
-    {{ $invoice->counter->CounterReference }}
-</a>
+
+  <a data-idinvoice="{{ $invoice->counter->CounterReference }}" href="{{ url('/counter/counter-stat/' . $invoice->counter->CounterReferenceid) }}" class="btn btn-outline-primary btn-sm edit-button" data-target="#edit_counter">
+      <span>{{ $invoice->counter->CounterReference }}</span>
+
+    </a>
+  </td>
 
   
 </td>
