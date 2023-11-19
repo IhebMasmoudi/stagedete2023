@@ -12,10 +12,11 @@
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="left-content">
-            <div>
-               <!-- <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">{{ __('messages.welcome_back') }}</h2>--> 
-<h2 class="main-content-title center tx-24 mg-b-1 mg-b-lg-1">!! Welecome to your dashbaord</h2>
-            </div>
+
+<h2 class="main-content-title center tx-24 mg-b-1 mg-b-lg-1" style="text-align: center; display: flex; align-items: center; justify-content: center;">
+    ETAP Consumption Dashboard
+  </h2>
+  
         </div>
         
     </div>
